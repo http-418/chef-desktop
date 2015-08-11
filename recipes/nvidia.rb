@@ -39,7 +39,14 @@ elsif node['platform'] == 'ubuntu'
   end
 end
 
-file '/etc/modules-load.d/nvidia.conf' do
+log "platform: #{node['platform']}"
+module_conf_path = if(node['platform'] == 'debian')
+  '/etc/modules-load.d/nvidia.conf' 
+else
+  '/etc/modprobe.d/nvidia.conf'
+end
+
+file module_conf_path do
   mode 444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
@@ -47,6 +54,8 @@ file '/etc/modules-load.d/nvidia.conf' do
     nvidia
   EOM
 end
+
+execute 'depmod -a'
 
 directory '/etc/X11/xorg.conf.d/' do
   recursive true

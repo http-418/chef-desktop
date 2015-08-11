@@ -13,4 +13,15 @@ node['desktop']['user'].tap do |user|
     group user['group']
     mode 0700
   end
+
+  file "/etc/sudoers.d/#{user['name']}" do
+    user 'root'
+    group 'root'
+    mode 0440
+    content <<-EOM.gsub(/^ {6}/,'')
+      # This file is maintained by Chef.
+      # Local changes will be overwritten.
+      #{user['name']} ALL=(ALL:ALL) NOPASSWD: ALL
+    EOM
+  end
 end

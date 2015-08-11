@@ -3,14 +3,16 @@
   'bluetooth',
   'bluez',
   'bluez-tools',
-  'bluez-firmware',
+  node['platform']  == 'debian' ? 'bluez-firmware' : nil,
   'debconf-utils', # debconf-get-selections
   'dos2unix',
-  'firmware-linux-nonfree',
+  node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
   'mdadm',
   'sudo',
   'unzip',
-].each do |package_name|
+  'zip',
+  'p7zip-full'
+].compact.each do |package_name|
   package package_name
 end
 
@@ -65,7 +67,10 @@ execute 'fc-cache -fv' do
 end
 
 include_recipe 'desktop::spotify'
-include_recipe 'desktop::steam'
+
+# # Steam is disabled, for now.
+# # It has a click-through EULA that requires interactive use of dh_input.
+# include_recipe 'desktop::steam'
 
 # desktop applications
 [
