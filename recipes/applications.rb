@@ -1,9 +1,13 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: applications
+#
+# This is the catch-all recipe for configuring desktop applications.
+# Complex installs get their own recipes (e.g. kde, wine, steam)
+#
+
 # system utilities
 [
-  'bluetooth',
-  'bluez',
-  'bluez-tools',
-  node['platform']  == 'debian' ? 'bluez-firmware' : nil,
   'debconf-utils', # debconf-get-selections
   'dos2unix',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
@@ -90,6 +94,7 @@ include_recipe 'desktop::spotify'
   'pidgin-otr',
   'pulseaudio',
   'xclip',
+  'xserver-xephyr',
   'xterm',
 ].compact.each do |package_name|
   package package_name
@@ -99,14 +104,4 @@ link '/usr/bin/t' do
   to '/usr/bin/mrxvt'
 end
 
-# kde
-[
-  'kde-plasma-desktop',
-  'yakuake'
-].each do |package_name|
-  package package_name
-end
-
-service 'kdm' do
-  action :start
-end
+include_recipe 'desktop::kde'
