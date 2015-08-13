@@ -1,0 +1,28 @@
+#!/usr/bin/env perl
+# -*- mode: perl -*-
+
+use strict;
+use warnings;
+
+my ( $dpi ) = ( grep { $_ > 0 }
+                map  { if( m/resolution:\s+(\d+)x/ ){ $1 } } `xdpyinfo` );
+
+my $minspeed = sprintf( "%.2f", ( $dpi / 100 ) * 1.00 * 1 );
+my $maxspeed = sprintf( "%.2f", ( $dpi / 100 ) * 1.75 * 2 );
+my $coasting = sprintf( "%.2f", ( $dpi / 100 ) * 20 * 2  );
+
+if( $minspeed > 0 && $maxspeed > 0 )
+{
+    print STDOUT "New speeds: $minspeed, $maxspeed, $coasting\n";
+
+    system("synclient MinSpeed=$minspeed");
+    system("synclient MaxSpeed=$maxspeed");
+    system("synclient CoastingSpeed=$coasting");
+
+    system( "synclient TapButton1=1" );
+    system( "synclient TapButton2=2" );
+    system( "synclient TapButton3=3" );
+    system( "synclient VertTwoFingerScroll=on" );
+    system( "synclient HorizTwoFingerScroll=on" );
+    system( "synclient PalmDetect=1" );
+}

@@ -13,6 +13,7 @@ include_recipe 'desktop::apt'
 # Hardware.
 include_recipe 'desktop::pc-speaker'
 include_recipe 'desktop::bluetooth'
+include_recipe 'desktop::synaptics'
 
 package 'pciutils'
 

@@ -1,0 +1,17 @@
+# -*- mode: conf -*-
+#
+# This file is managed by Chef.
+# Local changes will be overwritten.
+#
+
+Section "InputClass"
+	Identifier      "touchpad catchall"
+	MatchIsTouchpad "on"
+	Driver          "synaptics"
+	Option		"TapButton1"	"1"
+	Option		"TapButton2"	"2"
+	Option		"TapButton3"	"3"
+	Option		"VertTwoFingerScroll"	"1"
+	Option		"HorizTwoFingerScroll"	"1"
+	Option		"PalmDetect"		"1"
+EndSection
