@@ -24,6 +24,7 @@ else
   file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
     action :delete
   end
+  package 'xserver-xorg'
 end
 
 # Software.
