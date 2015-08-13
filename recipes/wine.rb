@@ -40,6 +40,12 @@ admin_user = node['desktop']['user']['name']
 admin_group = node['desktop']['user']['group']
 wine_path = '/opt/wine'
 
+directory '/usr/local/src/wine' do
+  user admin_user
+  group admin_group
+  mode 0755
+end
+
 git '/usr/local/src/wine' do
   user admin_user
   group admin_group
