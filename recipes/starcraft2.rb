@@ -35,6 +35,8 @@ end
 
 remote_file setup_path do
   source 'http://dist.blizzard.com/downloads/sc2-installers/full/StarCraft-II-Setup-enUS.exe'
+  user desktop_user
+  group desktop_group
   not_if{ File.exists?(setup_path) }
 end
 
