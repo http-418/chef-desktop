@@ -96,6 +96,7 @@ include_recipe 'desktop::spotify'
   'pidgin-otr',
   'pulseaudio',
   'xclip',
+  'xnest',
   'xserver-xephyr',
   'xterm',
 ].compact.each do |package_name|

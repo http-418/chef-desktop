@@ -40,6 +40,11 @@ directory "#{apps_directory}/konsole" do
   recursive true
 end
 
+template "#{config_directory}/auroraerc" do
+  mode 0444
+  source 'kde/auroraerc.erb'
+end
+
 template "#{config_directory}/konsolerc" do
   mode 0444
   source 'kde/konsolerc.erb'
