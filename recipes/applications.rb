@@ -39,6 +39,7 @@ end
  'screen',
  'silversearcher-ag',
  'smbclient',
+ 'strace',
  'winetricks',
 ].each do |package_name|
   package package_name
@@ -89,6 +90,7 @@ include_recipe 'desktop::spotify'
   'mrxvt',
   'mwm',
   'mumble',
+  'okular',
   'pavucontrol',
   'pidgin',
   'pidgin-otr',

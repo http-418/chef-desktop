@@ -5,6 +5,10 @@
 # Installs the Bluetooth stack on Debian/Ubuntu.
 #
 
+directory '/lib/firmware' do
+  mode 0755
+end
+
 directory '/lib/firmware/brcm' do
   mode 0755
 end
