@@ -1,4 +1,8 @@
 node['desktop']['user'].tap do |user|
+  group user['group'] do
+    gid user['gid']
+  end
+  
   user user['name'] do
     comment "#{node['fqdn']} administrator"
     uid user['uid']
