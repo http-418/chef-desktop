@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 # This is the catch-all recipe for configuring desktop applications.
-# Complex installs get their own recipes (e.g. kde, wine, steam)
+# Complex installs get their own recipes (e.g. kde, wine)
 #
 
 # system utilities
@@ -76,10 +76,6 @@ execute 'fc-cache -fv' do
 end
 
 include_recipe 'desktop::spotify'
-
-# # Steam is disabled, for now.
-# # It has a click-through EULA that requires interactive use of dh_input.
-# include_recipe 'desktop::steam'
 
 # desktop applications
 [
