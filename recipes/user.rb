@@ -1,3 +1,15 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: user
+#
+# Copyright 2015, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+# This recipe configures the sudo-enabled user account.
+# Other recipes assume this will be the primary desktop user.
+#
+
 node['desktop']['user'].tap do |user|
   group user['group'] do
     gid user['gid']
