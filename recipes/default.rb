@@ -25,6 +25,7 @@ else
     action :delete
   end
   package 'xserver-xorg'
+  package 'xserver-xorg-video-all'
 end
 
 # Software.
