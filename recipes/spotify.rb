@@ -1,4 +1,11 @@
 #
+# Cookbook Name:: desktop
+# Recipe:: spotify
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
 # Spotify's ancient linux client requires a library that has been
 # removed from both Ubuntu and Debian.  No way around it.  Fortunately
 # Ubuntu 14.04 LTS retains libgcrypt11.  On Debian, we just have to

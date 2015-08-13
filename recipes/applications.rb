@@ -2,6 +2,10 @@
 # Cookbook Name:: desktop
 # Recipe:: applications
 #
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
 # This is the catch-all recipe for configuring desktop applications.
 # Complex installs get their own recipes (e.g. kde, wine, steam)
 #

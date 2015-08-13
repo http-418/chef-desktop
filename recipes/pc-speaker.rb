@@ -1,3 +1,14 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: pc-speaker
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
+# This recipe disables the internal PC speaker hardware.
+# 
+
 execute 'modprobe -r pcspkr' do
   only_if 'lsmod | grep pcspkr'
 end

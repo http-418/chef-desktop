@@ -1,3 +1,12 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: apt
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
+
 if node['platform'] == 'debian'
   include_recipe 'debian'
 elsif node['platform'] == 'ubuntu'

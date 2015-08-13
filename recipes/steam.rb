@@ -1,3 +1,15 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: steam
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
+# This recipe attempts to install steam and fix up fonts, but it will
+# fail because of Steam's irritating clickthrough EULA.  Workaround:
+# Manually install the steam package before including this recipe.
+#
 apt_repository 'steam' do
   uri 'http://repo.steampowered.com/steam/'
   components ['precise', 'steam']

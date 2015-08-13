@@ -2,6 +2,10 @@
 # Cookbook Name:: desktop
 # Recipe:: bluetooth
 #
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
 # Installs the Bluetooth stack on Debian/Ubuntu.
 #
 

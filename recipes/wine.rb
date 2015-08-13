@@ -1,3 +1,14 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: wine
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
+# WARNING: this recipe is not 100% idempotent.
+# 
+
 # 32 bit development libraries.
 [
  'gcc-multilib',
