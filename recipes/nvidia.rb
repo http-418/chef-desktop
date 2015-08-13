@@ -1,3 +1,15 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: nvidia
+#
+# Copyright 2015, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+# This recipe installs and configures the proprietary nVidia drivers
+# on Debian/Ubuntu.
+#
+
 package 'xserver-xorg-video-nouveau' do
   action :purge
 end
