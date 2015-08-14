@@ -39,7 +39,18 @@ end
   'bluetooth',
   'bluez',
   'bluez-tools',
-  node['platform']  == 'debian' ? 'bluez-firmware' : nil,
 ].compact.each do |package_name|
   package package_name
 end
+
+if node['platform']  == 'debian'
+  package [
+           'bluez-firmware',
+           'firmware-atheros',
+           'firmware-linux',
+           'firmware-linux-nonfree',
+          ] do
+    action :install
+  end
+end
+
