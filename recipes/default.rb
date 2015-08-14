@@ -13,7 +13,6 @@ include_recipe 'desktop::apt'
 # Hardware.
 include_recipe 'desktop::pc-speaker'
 include_recipe 'desktop::bluetooth'
-include_recipe 'desktop::synaptics'
 
 package 'pciutils'
 
@@ -28,6 +27,8 @@ else
   package 'xserver-xorg'
   package 'xserver-xorg-video-all'
 end
+
+include_recipe 'desktop::synaptics'
 
 # Software.
 include_recipe 'desktop::applications'

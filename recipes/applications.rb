@@ -38,6 +38,7 @@ end
 
 # other CLI applications
 [
+ 'autossh',
  'imagemagick',
  'irssi',
  'screen',
