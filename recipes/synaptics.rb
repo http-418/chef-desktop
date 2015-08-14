@@ -14,6 +14,10 @@ template '/usr/local/bin/synaptics.pl' do
   source 'synaptics/synaptics.pl.erb'
 end
 
+directory '/etc/X11/xorg.conf.d' do
+  mode 0500
+end
+
 template '/etc/X11/xorg.conf.d/20-synaptics.conf' do
   mode 0444
   source 'synaptics/synaptics.conf.erb'
