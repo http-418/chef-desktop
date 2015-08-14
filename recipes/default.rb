@@ -31,6 +31,7 @@ end
 
 # Software.
 include_recipe 'desktop::applications'
+include_recipe 'desktop::ssh'
 
 # Primary user configuration -- see attributes/user.rb!
 include_recipe 'desktop::user'
