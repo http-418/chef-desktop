@@ -36,9 +36,11 @@ execute 'btusb-reload' do
 end
 
 [
+  'blueman',
   'bluetooth',
   'bluez',
   'bluez-tools',
+  'obex-data-server',
 ].compact.each do |package_name|
   package package_name
 end

@@ -45,6 +45,7 @@ end
  'silversearcher-ag',
  'smbclient',
  'strace',
+ 'sysstat',
  'winetricks',
 ].each do |package_name|
   package package_name
@@ -76,11 +77,8 @@ execute 'fc-cache -fv' do
   action :nothing
 end
 
-include_recipe 'desktop::spotify'
-
 # desktop applications
 [
-  'blueman',
   'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gip',
