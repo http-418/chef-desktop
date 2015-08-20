@@ -13,6 +13,7 @@
 
 [
   'kde-plasma-desktop',
+  'kscreen', # Display settings are absent without this package.
   'yakuake'
 ].each do |package_name|
   package package_name

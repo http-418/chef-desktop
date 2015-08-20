@@ -82,8 +82,6 @@ end
   'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gip',
-  'google-chrome-unstable',
-  'google-chrome-beta', # yes this is out of order
   'keepassx',
   'mpv', # mplayer fork
   'mrxvt',
@@ -107,3 +105,4 @@ link '/usr/bin/t' do
 end
 
 include_recipe 'desktop::kde'
+include_recipe 'desktop::google-chrome'
