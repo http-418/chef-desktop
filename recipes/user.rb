@@ -41,3 +41,14 @@ node['desktop']['user'].tap do |user|
     EOM
   end
 end
+
+file "/etc/sudoers.d/proxy" do
+    user 'root'
+    group 'root'
+    mode 0440
+    content <<-EOM.gsub(/^ {6}/,'')
+      # This file is maintained by Chef.
+      # Local changes will be overwritten.
+      Defaults env_keep += "http_proxy https_proxy"
+    EOM
+end
