@@ -3,16 +3,24 @@
 # Recipe:: citrix
 # Author:: Andrew Jones
 #
+require 'digest'
 require 'fileutils'
 require 'nokogiri'
-require 'tempfile'
+require 'tmpdir'
 
-citrix_html_path = Tempfile.new('citrix_html').path
+citrix_html_path = '/tmp/' + Dir::Tmpname.make_tmpname('citrix', 'html')
 citrix_deb_path = "#{Chef::Config[:file_cache_path]}/icaclient_amd64.deb"
+citrix_checksum =
+  '86e7e169ab10cae868a5909c07647f2efeaa6c21f4fcab6684a3f19e3c461433'
+
+citrix_deb_is_valid = lambda do
+  (File.exists?(citrix_deb_path) &&
+   Digest::SHA256.hexdigest(File.read(citrix_deb_path)) == citrix_checksum)
+end
 
 remote_file citrix_html_path do
-  source 'https://www.citrix.com/downloads/citrix-receiver/legacy-receiver-for-linux/receiver-for-linux-131.html'
-  not_if{ File.exists?(citrix_deb_path) }
+  source 'https://www.citrix.com/downloads/citrix-receiver/linux/receiver-for-linux-13-2.html'
+  not_if{ citrix_deb_is_valid.call }   
 end
 
 #
@@ -31,7 +39,7 @@ ruby_block 'citrix-get-url' do
     link = "https:#{final_rel}" 
     node.set['desktop_citrix_onetime_url'] = link
   end
-  not_if{ File.exists?(citrix_deb_path) }
+  not_if{ citrix_deb_is_valid.call }
 end
 
 #
@@ -43,7 +51,7 @@ end
 #
 remote_file citrix_deb_path do
   source lazy { node['desktop_citrix_onetime_url'] }
-  checksum '730ae2e1fa24dd047e37da8783aea916bf6c50e3ba76f0c32d9cec855fba1452'
+  checksum citrix_checksum
 end  
 
 ruby_block 'citrix-purge-url' do
@@ -67,18 +75,21 @@ package_names = [
  'libspeex1:i386',
  'libxmu6',
  'libxmu6:i386',
+ 'libxpm4',
+ 'libxpm4:i386',
  'libxp6',
  'libxp6:i386',
  'libwebkitgtk-1.0-0',
- 'nspluginwrapper',
 ]
 
-package_names.reject{ |p| p.include?(":i386") }.each do |amd64_package|
-  package amd64_package
+# amd64, all in one batch
+package package_names.reject{ |p| p.include?(":i386") } do
+  action :install
 end
 
-package_names.select{ |p| p.include?(":i386") }.each do |i386_package|
-  package i386_package
+# now that the amd64 versions are pre-installed, tackle i386
+package package_names.select{ |p| p.include?(":i386") } do
+  action :install
 end
 
 # Accept another duplicate EULA.
@@ -97,3 +108,5 @@ Dir.glob('/usr/share/ca-certificates/mozilla/*').each do |source_path|
     to source_path
   end
 end
+
+execute 'c_rehash /opt/Citrix/ICAClient/keystore/cacerts/'
