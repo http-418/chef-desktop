@@ -106,3 +106,5 @@ end
 
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
+include_recipe 'desktop::vagrant'
+

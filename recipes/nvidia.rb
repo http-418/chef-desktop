@@ -51,19 +51,13 @@ elsif node['platform'] == 'ubuntu'
   end
 end
 
-log "platform: #{node['platform']}"
-module_conf_path = if(node['platform'] == 'debian')
-  '/etc/modules-load.d/nvidia.conf' 
-else
-  '/etc/modprobe.d/nvidia.conf'
-end
-
+module_conf_path = '/etc/modprobe.d/nvidia.conf'
 file module_conf_path do
   mode 444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.
-    nvidia
+    install nvidia /bin/true
   EOM
 end
 
