@@ -1,0 +1,13 @@
+# -*- mode: shell-script -*-
+#
+# /etc/default/docker.io
+#
+# This file is maintained by Chef.
+# Local changes will be reverted.
+#
+<% if Chef::Config[:http_proxy] %>
+export http_proxy=<%= Chef::Config[:http_proxy] %>
+<% end %>
+<% if Chef::Config[:https_proxy] %>
+export https_proxy=<%= Chef::Config[:https_proxy] %>
+<% end %>

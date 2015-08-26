@@ -11,7 +11,7 @@
 #
 
 # system utilities
-[
+package [
   'debconf-utils', # debconf-get-selections
   'dos2unix',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
@@ -20,24 +20,24 @@
   'unzip',
   'zip',
   'p7zip-full'
-].compact.each do |package_name|
-  package package_name
+].compact do
+  action :install
 end
 
 # development
-[
+package [
  'autoconf',
  'automake',
  'bison',
  'flex',
  'git',
  'libtool',
-].each do |package_name|
-  package package_name
+] do
+  action :install
 end
 
 # other CLI applications
-[
+package [
  'autossh',
  'imagemagick',
  'irssi',
@@ -46,9 +46,10 @@ end
  'smbclient',
  'strace',
  'sysstat',
+ 'tcpdump',
  'winetricks',
-].each do |package_name|
-  package package_name
+] do
+ action :install
 end
 
 # Accept the EULA for Microsoft's web fonts.
@@ -59,7 +60,7 @@ execute 'accept-mscorefonts-eula' do
 end
 
 # desktop fonts
-[
+package [
  'fonts-inconsolata',
  'fonts-liberation',
  'ttf-mscorefonts-installer',
@@ -67,10 +68,9 @@ end
  'xfonts-100dpi',
  'xfonts-base',
  'xfonts-scalable',
-].each do |package_name|
-  package package_name do
-    notifies :run, 'execute[fc-cache -fv]'
-  end
+] do
+  action :install
+  notifies :run, 'execute[fc-cache -fv]'
 end
 
 execute 'fc-cache -fv' do
@@ -78,7 +78,7 @@ execute 'fc-cache -fv' do
 end
 
 # desktop applications
-[
+package [
   'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gip',
@@ -92,18 +92,20 @@ end
   'pidgin',
   'pidgin-otr',
   'pulseaudio',
+  'wireshark',
   'xclip',
   'xnest',
   'xserver-xephyr',
   'xterm',
-].compact.each do |package_name|
-  package package_name
+].compact do
+  action :install
 end
 
 link '/usr/bin/t' do
   to '/usr/bin/mrxvt'
 end
 
+include_recipe 'desktop::docker'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
