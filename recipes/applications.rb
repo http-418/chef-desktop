@@ -109,4 +109,5 @@ include_recipe 'desktop::docker'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
+include_recipe 'desktop::virtualbox'
 

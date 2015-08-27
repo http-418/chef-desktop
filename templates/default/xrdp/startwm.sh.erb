@@ -1,0 +1,14 @@
+#!/bin/sh
+# -*- mode: shell-script -*-
+#
+# This file is managed by Chef.
+# Local changes will be reverted.
+#
+
+if [ -r /etc/default/locale ]; then
+  . /etc/default/locale
+  export LANG LANGUAGE
+fi
+
+xterm -rv -fn 9x15 &
+mwm

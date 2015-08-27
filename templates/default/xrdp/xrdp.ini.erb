@@ -1,4 +1,8 @@
 # -*- mode: conf -*-
+# 
+# This file is managed by Chef.
+# Local changes will be reverted.
+#
 
 [globals]
 bitmap_cache=yes
@@ -18,17 +22,17 @@ max_bpp=24
 #background=626c72
 
 [xrdp1]
-name=sesman-Xvnc
-lib=libvnc.so
-username=ask
-password=ask
-ip=127.0.0.1
-port=-1
-
-[xrdp2]
-name=console
+name=Console (x11vnc)
 lib=libvnc.so
 ip=127.0.0.1
 port=5900
 username=ask
 password=ask
+
+[xrdp2]
+name=Fallback Session (mwm on Xvnc)
+lib=libvnc.so
+username=ask
+password=ask
+ip=127.0.0.1
+port=-1
