@@ -13,6 +13,7 @@ include_recipe 'desktop::apt'
 # Hardware.
 include_recipe 'desktop::pc-speaker'
 include_recipe 'desktop::bluetooth'
+include_recipe 'desktop::synaptics'
 
 package 'pciutils'
 
@@ -28,11 +29,10 @@ else
   package 'xserver-xorg-video-all'
 end
 
-include_recipe 'desktop::synaptics'
-
 # Software.
 include_recipe 'desktop::applications'
 include_recipe 'desktop::ssh'
+package 'toilet'
 
 # Primary user configuration -- see attributes/user.rb!
 include_recipe 'desktop::user'

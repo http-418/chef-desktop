@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: desktop-work
+# Cookbook Name:: desktop
 # Recipe:: citrix
 # Author:: Andrew Jones
 #

@@ -13,6 +13,7 @@
 # system utilities
 package [
   'debconf-utils', # debconf-get-selections
+  'dnsutils',
   'dos2unix',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
   'mdadm',

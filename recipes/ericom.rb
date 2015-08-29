@@ -6,7 +6,9 @@
 # This recipe installs the Ericom Blaze RDP client.
 # It also configures the necessary MIME handler.
 #
-
+# The Ericom Blaze client is not publicly available.  Unless the
+# download URL attribute is overriden, this recipe is a no-op.
+#
 if node['desktop']['ericom']['url']
 
   ericom_directory = Chef::Config['file_cache_path'] + '/ericom'
@@ -20,14 +22,22 @@ if node['desktop']['ericom']['url']
   remote_file ericom_tarball do
     source node['desktop']['ericom']['url']
     checksum '76c091325a5d4ff0e2e74eed89a9d6ba43712c4fe01464a50b0d9674f9a2d01e'
+    notifies :remove, "dpkg_package[remove-ericom]", :immediately
   end
 
   execute "tar -xzf #{ericom_tarball} Ericom-Blaze-Client_3.5-1_i386.deb" do
     cwd ericom_directory
-    creates ericom_deb
   end
 
-  dpkg_package ericom_deb
+  dpkg_package 'remove-ericom' do
+    package_name 'Ericom-Blaze-Client'
+    action :nothing
+    ignore_failure true
+  end
+
+  dpkg_package ericom_deb do
+    action :install
+  end
 
   file '/usr/share/applications/ericom.desktop' do
     mode 0444
