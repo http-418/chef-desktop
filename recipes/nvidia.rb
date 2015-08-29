@@ -30,7 +30,7 @@ execute 'nvidia-depmod' do
 end
 
 if node['platform'] == 'debian'
-  [
+  package [
    'build-essential',
    'linux-headers-amd64',
    'libgl1-nvidia-glx-i386',
@@ -38,16 +38,16 @@ if node['platform'] == 'debian'
    'nvidia-settings',
    'nvidia-alternative',
    'xserver-xorg-video-nvidia',
-  ].each do |package_name|
-    package package_name
+  ] do
+    action :install
   end
 elsif node['platform'] == 'ubuntu'
-  [
+  package [
    'build-essential',
    'linux-headers-generic',
    'nvidia-current'
-  ].each do |package_name|
-    package package_name
+  ] do
+    action :install
   end
 end
 

@@ -9,9 +9,7 @@
 # Installs vagrant + vbox on Debian/Ubuntu.
 #
 
-package [ 'build-essential', 'dkms', 'virtualbox-4.3' ] do
-  action :install
-end
+include_recipe 'desktop::virtualbox'
 
 vagrant_url = 
   "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb"
