@@ -44,7 +44,7 @@ directory autostart_directory do
   mode 0750
 end
 
-# Start x11vnc on login.
+# Start x11vnc on login by stuffing a desktop file into the XDG autostart dir.
 user_name = node[:desktop][:user][:name]
 file "#{autostart_directory}/x11vnc.desktop" do
   user user_name
@@ -52,7 +52,7 @@ file "#{autostart_directory}/x11vnc.desktop" do
   mode 0555
   content <<-EOM.gsub(/^ {4}/,'')
     [Desktop Entry]
-    Exec=sh -c "x11vnc -unixpw #{user_name} -listen localhost &"
+    Exec=sh -c "x11vnc -unixpw #{user_name} -listen localhost"
     Hidden=false
     Name=x11vnc for #{user_name}
     Type=Application
