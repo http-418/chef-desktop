@@ -30,8 +30,10 @@ package [
  'autoconf',
  'automake',
  'bison',
+ 'build-essential',
  'flex',
  'git',
+ 'libpq-dev',
  'libtool',
 ] do
   action :install
@@ -80,9 +82,11 @@ end
 
 # desktop applications
 package [
+  'clusterssh',
   'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gip',
+  'gimp',
   'keepassx',
   'mpv', # mplayer fork
   'mrxvt',
