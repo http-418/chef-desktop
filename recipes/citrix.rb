@@ -19,7 +19,7 @@ citrix_deb_is_valid = lambda do
 end
 
 remote_file citrix_html_path do
-  source 'https://www.citrix.com/downloads/citrix-receiver/linux/receiver-for-linux-13-2.html'
+  source 'https://www.citrix.com/downloads/citrix-receiver/legacy-receiver-for-linux/receiver-for-linux-13-2.html'
   not_if{ citrix_deb_is_valid.call }   
 end
 
@@ -99,7 +99,9 @@ execute 'citrix-accept-eula' do
   not_if "debconf-get-selections | grep icaclient/accepteula | grep true"
 end
 
-dpkg_package citrix_deb_path
+dpkg_package citrix_deb_path do
+  options '--force-confnew'
+end
 
 Dir.glob('/usr/share/ca-certificates/mozilla/*').each do |source_path|
   target_path = 

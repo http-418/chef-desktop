@@ -44,6 +44,7 @@ package [
  'autossh',
  'imagemagick',
  'irssi',
+ 'ldap-utils',
  'screen',
  'silversearcher-ag',
  'smbclient',
