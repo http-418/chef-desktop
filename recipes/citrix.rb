@@ -3,6 +3,8 @@
 # Recipe:: citrix
 # Author:: Andrew Jones
 #
+chef_gem 'nokogiri'
+
 require 'digest'
 require 'fileutils'
 require 'nokogiri'
