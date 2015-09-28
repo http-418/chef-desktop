@@ -42,6 +42,7 @@ end
 # other CLI applications
 package [
  'autossh',
+ 'gddrescue',
  'imagemagick',
  'irssi',
  'ldap-utils',
@@ -51,6 +52,7 @@ package [
  'strace',
  'sysstat',
  'tcpdump',
+ 'whois',
  'winetricks',
 ] do
  action :install
@@ -100,6 +102,7 @@ package [
   'pulseaudio',
   'wireshark',
   'xclip',
+  'xinput',
   'xnest',
   'xserver-xephyr',
   'xterm',
