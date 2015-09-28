@@ -35,6 +35,7 @@ package [
  'git',
  'libpq-dev',
  'libtool',
+ 'libpq-dev',
 ] do
   action :install
 end
@@ -43,15 +44,19 @@ end
 package [
  'autossh',
  'gddrescue',
+ 'icoutils', # wrestool
  'imagemagick',
  'irssi',
  'ldap-utils',
+ 'mediainfo',
  'screen',
  'silversearcher-ag',
+ 'smartmontools',
  'smbclient',
  'strace',
  'sysstat',
  'tcpdump',
+ 'time', # gnu time is better than shell builtins.
  'whois',
  'winetricks',
 ] do
@@ -88,8 +93,9 @@ package [
   'clusterssh',
   'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
-  'gip',
   'gimp',
+  'gip',
+  'handbrake',
   'keepassx',
   'mpv', # mplayer fork
   'mrxvt',
