@@ -43,19 +43,20 @@ package_names = [
  'xserver-xorg-dev:i386',
 ]
 
-# amd64, all in one batch
+# Install amd64 dependencies.
 package package_names.reject{ |p| p.include?(":i386") } do
   action :install
 end
 
-# now that the amd64 versions are pre-installed, tackle i386
+# Install i386 development libraries.
+# This will force uninstallation of lots of amd64 material.
 package package_names.select{ |p| p.include?(":i386") } do
   action :install
 end
 
 # known-working compiler
 gcc_version = node[:desktop][:wine][:gcc_version]
-package "gcc-#{gcc_version}", "g++-#{gcc_version}}"
+package ["gcc-#{gcc_version}", "g++-#{gcc_version}"]
 
 admin_user = node['desktop']['user']['name']
 admin_group = node['desktop']['user']['group']
@@ -110,6 +111,8 @@ execute 'wine-clean' do
   command "make clean"
   # Don't run unless the git repo has changed.
   action :nothing
+  # 'make clean' will commonly fail
+  ignore_failure true
 end
 
 execute 'wine-configure' do

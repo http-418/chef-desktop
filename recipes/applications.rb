@@ -53,6 +53,7 @@ package [
  'silversearcher-ag',
  'smartmontools',
  'smbclient',
+ 'sqlite',
  'strace',
  'sysstat',
  'tcpdump',
@@ -91,12 +92,12 @@ end
 # desktop applications
 package [
   'clusterssh',
-  'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gimp',
   'gip',
   'handbrake',
   'keepassx',
+  'mesa-utils', # glxgears
   'mpv', # mplayer fork
   'mrxvt',
   'mwm',
@@ -116,11 +117,16 @@ package [
   action :install
 end
 
+# package 'emacs24' do
+#   action :remove
+# end
+
 link '/usr/bin/t' do
   to '/usr/bin/mrxvt'
 end
 
 include_recipe 'desktop::docker'
+include_recipe 'desktop::emacs'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
