@@ -15,7 +15,7 @@ package 'xserver-xorg-video-nouveau' do
 end
 
 file '/etc/modprobe.d/nouveau-blacklist.conf' do
-  mode 444
+  mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.
@@ -53,7 +53,7 @@ end
 
 module_conf_path = '/etc/modprobe.d/nvidia.conf'
 file module_conf_path do
-  mode 444
+  mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.
@@ -65,11 +65,11 @@ execute 'depmod -a'
 
 directory '/etc/X11/xorg.conf.d/' do
   recursive true
-  mode 555
+  mode 0555
 end
 
 file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
-  mode 444
+  mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.

@@ -14,7 +14,7 @@ execute 'modprobe -r pcspkr' do
 end
 
 file '/etc/modprobe.d/pcspkr-blacklist.conf' do
-  mode 444
+  mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.
