@@ -1,10 +1,10 @@
 
 
-deb_name = 'VidyoDesktopInstaller-ubuntu64-TAG_VD_3_3_0_027.deb'
+deb_name = 'VidyoDesktopInstaller-ubuntu64-TAG_VD_3_5_4_010.deb'
 deb_path = "#{Chef::Config[:file_cache_path]}/#{deb_name}"
 remote_file deb_path do
   source "https://demo.vidyo.com/upload/#{deb_name}"
-  checksum 'ac19b3995d31274e33d9b72db665cb86b475e07028c1ba0aa9ece220c84fae10'
+  checksum '9c5ab8293b6888336bc8d7a6d8b6d097f40efd201966c18cfd983f8adf58627c'
 end
 
 package 'libqt4-gui'
