@@ -126,7 +126,7 @@ link '/usr/bin/t' do
 end
 
 include_recipe 'desktop::docker'
-include_recipe 'desktop::emacs'
+#include_recipe 'desktop::emacs'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
