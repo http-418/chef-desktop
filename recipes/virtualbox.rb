@@ -7,19 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Ubuntu has Oracle-contributed vbox in universe.
-# Debian requires the Virtualbox repository.
-if(node['platform'] == 'debian')
-  include_recipe 'apt'
-  
-  apt_repository 'virtualbox' do
-    uri 'http://download.virtualbox.org/virtualbox/debian'
-    components ['contrib']
-    distribution node[:lsb][:codename]
-    key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
-    action :add
-    notifies :run, 'execute[apt-get update]', :immediately
-  end
+include_recipe 'apt'
+
+apt_repository 'virtualbox' do
+  uri 'http://download.virtualbox.org/virtualbox/debian'
+  components ['contrib']
+  distribution node[:lsb][:codename]
+  key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+  action :add
+  notifies :run, 'execute[apt-get update]', :immediately
 end
 
 package 'virtualbox-4.3' do
