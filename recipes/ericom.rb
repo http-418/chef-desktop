@@ -21,7 +21,7 @@ if node['desktop']['ericom']['url']
 
   remote_file ericom_tarball do
     source node['desktop']['ericom']['url']
-    checksum '76c091325a5d4ff0e2e74eed89a9d6ba43712c4fe01464a50b0d9674f9a2d01e'
+    checksum '5719ec1accd19ee90287306258d6644bc963c3fdcd22ebc0b6753349b9abec50'
     notifies :remove, "dpkg_package[remove-ericom]", :immediately
   end
 
