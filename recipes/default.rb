@@ -32,7 +32,6 @@ end
 # Software.
 include_recipe 'desktop::applications'
 include_recipe 'desktop::ssh'
-package 'toilet'
 
 # Primary user configuration -- see attributes/user.rb!
 include_recipe 'desktop::user'

@@ -31,11 +31,13 @@ package [
  'automake',
  'bison',
  'build-essential',
+ 'cloc',
  'flex',
  'git',
  'libpq-dev',
  'libtool',
  'libpq-dev',
+ 'silversearcher-ag',
 ] do
   action :install
 end
@@ -43,6 +45,7 @@ end
 # other CLI applications
 package [
  'autossh',
+ 'avahi-utils',
  'gddrescue',
  'icoutils', # wrestool
  'imagemagick',
@@ -50,7 +53,6 @@ package [
  'ldap-utils',
  'mediainfo',
  'screen',
- 'silversearcher-ag',
  'smartmontools',
  'smbclient',
  'sqlite',
@@ -58,6 +60,7 @@ package [
  'sysstat',
  'tcpdump',
  'time', # gnu time is better than shell builtins.
+ 'toilet',
  'whois',
  'winetricks',
 ] do
