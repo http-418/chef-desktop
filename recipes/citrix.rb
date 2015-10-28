@@ -3,11 +3,12 @@
 # Recipe:: citrix
 # Author:: Andrew Jones
 #
-chef_gem 'nokogiri'
+chef_gem 'nokogiri' do
+  compile_time false
+end
 
 require 'digest'
 require 'fileutils'
-require 'nokogiri'
 require 'tmpdir'
 
 citrix_html_path = '/tmp/' + Dir::Tmpname.make_tmpname('citrix', 'html')
@@ -32,6 +33,7 @@ end
 #
 ruby_block 'citrix-get-url' do
   block do
+    require 'nokogiri'
     page = Nokogiri::HTML(open(citrix_html_path))
     final_rel = 
       page.css(".ctx-dl-link")
