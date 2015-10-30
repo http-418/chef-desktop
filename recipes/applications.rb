@@ -16,6 +16,7 @@ package [
   'dnsutils',
   'dos2unix',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
+  'krb5-user',
   'mdadm',
   'sudo',
   'unzip',
