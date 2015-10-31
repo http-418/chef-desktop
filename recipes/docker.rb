@@ -18,11 +18,7 @@ end
 
 package 'docker.io'
 
-docker_service = if( node['platform'] == 'ubuntu')
-                   'docker.io'
-                 else
-                   'docker'
-                 end
+docker_service = 'docker'
 
 template '/etc/default/docker.io' do
   mode 0444
