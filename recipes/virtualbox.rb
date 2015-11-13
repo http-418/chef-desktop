@@ -30,3 +30,7 @@ package [
     action :install
 end
 
+group 'vboxusers' do
+  append true
+  members node['desktop']['user']['name']
+end

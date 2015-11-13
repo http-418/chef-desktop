@@ -121,16 +121,12 @@ package [
   action :install
 end
 
-# package 'emacs24' do
-#   action :remove
-# end
-
 link '/usr/bin/t' do
   to '/usr/bin/mrxvt'
 end
 
 include_recipe 'desktop::docker'
-#include_recipe 'desktop::emacs'
+include_recipe 'desktop::emacs'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
