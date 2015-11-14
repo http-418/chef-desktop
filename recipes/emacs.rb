@@ -3,7 +3,9 @@
 # Recipe:: emacs
 # Author:: Andrew Jones
 #
-# This recipe compiles a recent emacs release from git.
+# This recipe compiles a recent emacs release from git. elpa/melpa
+# support for old versions of emacs is spotty, at best.  It's
+# important to be no more than a year or two behind.
 #
 
 package [
@@ -19,7 +21,7 @@ package [
   "libdbus-1-dev",
   "libgconf2-dev",
   "libgif-dev",
-  "libgnutls-dev",
+  "libgnutls28-dev",
   "libgpm-dev",
   "libgtk-3-dev",
   "libjpeg-dev",
@@ -42,18 +44,6 @@ package [
   action :install
 end
 
-package [
-  'emacs',
-  'emacs24',
-  'emacs24-bin-common',
-  'emacs24-common',
-  'emacs24-common-non-dfsg',
-  'emacs24-lucid',
-  'emacs24-nox',
-] do
-  action :remove
-end
-
 emacs_bin_path = '/opt/emacs'
 emacs_src_path = '/usr/local/src/emacs'
 
@@ -73,23 +63,23 @@ git emacs_src_path do
   group node['desktop']['user']['group']
   revision 'emacs-24.5'
   action :sync
-  notifies :run, 'execute[emacs-configure]'
+  notifies :run, 'execute[emacs-configure]', :immediately
 end
 
 execute 'emacs-configure' do
   cwd emacs_src_path
   command "./autogen.sh && ./configure --prefix=#{emacs_bin_path}"
   user node['desktop']['user']['name']
-  notifies :run, 'execute[emacs-make]'
   action :nothing
+  notifies :run, 'execute[emacs-make]', :immediately
 end
 
 execute 'emacs-make' do
   cwd emacs_src_path
-  command 'make bootstrap && make'
+  command 'make -j $(nproc) bootstrap && make -j $(nproc)'
   user node['desktop']['user']['name']
-  notifies :run, 'execute[emacs-install]'
   action :nothing
+  notifies :run, 'execute[emacs-install]', :immediately
 end
 
 execute 'emacs-install' do
@@ -99,8 +89,25 @@ execute 'emacs-install' do
   action :nothing
 end
 
-Dir.new('/opt/emacs/bin').reject{|e| e[0] == '.'}.each do |bin|
-  link "/usr/local/bin/#{bin}" do
-    to "#{emacs_bin_path}/bin/#{bin}"
+ruby_block 'emacs-bin-symlinks' do
+  block do 
+    Dir.new("#{emacs_bin_path}/bin").reject{|e| e[0] == '.'}.each do |bin|
+      link = Chef::Resource::Link.new("/usr/local/bin/#{bin}", run_context)
+      target = "#{emacs_bin_path}/bin/#{bin}"
+      link.to(target)
+      link.run_action(:create)
+    end
   end
+end
+
+package [
+  'emacs',
+  'emacs24',
+  'emacs24-bin-common',
+  'emacs24-common',
+  'emacs24-common-non-dfsg',
+  'emacs24-lucid',
+  'emacs24-nox',
+] do
+  action :remove
 end

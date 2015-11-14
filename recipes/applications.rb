@@ -47,12 +47,14 @@ end
 package [
  'autossh',
  'avahi-utils',
+ 'bvi',
  'gddrescue',
  'icoutils', # wrestool
  'imagemagick',
  'irssi',
  'ldap-utils',
  'mediainfo',
+ 'ntpdate',
  'screen',
  'smartmontools',
  'smbclient',
@@ -96,11 +98,18 @@ end
 # desktop applications
 package [
   'clusterssh',
+  'cups',
+  'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gimp',
   'gip',
+  'gstreamer1.0-plugins-bad',
+  'gstreamer1.0-plugins-ugly',
   'handbrake',
   'keepassx',
+  'libreoffice',
+  'libreoffice-kde',
+  'libreoffice-pdfimport',
   'mesa-utils', # glxgears
   'mpv', # mplayer fork
   'mrxvt',
@@ -131,4 +140,6 @@ include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
 include_recipe 'desktop::virtualbox'
+include_recipe 'desktop::youtube-dl'
+
 
