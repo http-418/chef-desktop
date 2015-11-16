@@ -7,7 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
-if node['platform'] == 'debian'
+unless node['platform'] == 'debian'
+  Chef::Log.warn('desktop::backports is a no-op on Ubuntu!')
+else
   include_recipe 'apt'
 
   apt_repository 'backports' do
