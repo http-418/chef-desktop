@@ -12,6 +12,8 @@
 
 ytdl_src_path = '/usr/local/src/youtube-dl'
 
+package 'pandoc'
+
 directory ytdl_src_path do
   user node['desktop']['user']['name']
   group node['desktop']['user']['group']
@@ -23,14 +25,14 @@ git ytdl_src_path do
   group node['desktop']['user']['group']
   revision 'master'
   action :sync
-  notifies :run, 'execute[youtube-dl-make]'
+  notifies :run, 'execute[youtube-dl-make]', :immediately
 end
 
 execute 'youtube-dl-make' do
   cwd ytdl_src_path
   user node['desktop']['user']['name']
   command 'make clean && make'
-  action :nothing
+  creates "#{ytdl_src_path}/youtube-dl"
 end
 
 link '/usr/local/bin/youtube-dl' do

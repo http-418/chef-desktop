@@ -38,6 +38,7 @@ package [
  'libpq-dev',
  'libtool',
  'libpq-dev',
+ 'python3',
  'silversearcher-ag',
 ] do
   action :install
@@ -70,27 +71,6 @@ package [
  action :install
 end
 
-# Accept the EULA for Microsoft's web fonts.
-# Georgia and MS Comic Sans are the really key ones here.
-execute 'accept-mscorefonts-eula' do
-  command 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections'
-  not_if 'debconf-get-selections | grep msttcorefonts/accepted-mscorefonts-eula | grep true'
-end
-
-# desktop fonts
-package [
- 'fonts-inconsolata',
- 'fonts-liberation',
- 'ttf-mscorefonts-installer',
- 'xfonts-75dpi',
- 'xfonts-100dpi',
- 'xfonts-base',
- 'xfonts-scalable',
-] do
-  action :install
-  notifies :run, 'execute[fc-cache -fv]'
-end
-
 execute 'fc-cache -fv' do
   action :nothing
 end
@@ -99,7 +79,6 @@ end
 package [
   'clusterssh',
   'cups',
-  'emacs24',
   node['platform'] == 'debian' ? 'icedove' : nil,
   'gimp',
   'gip',
@@ -136,6 +115,7 @@ end
 
 include_recipe 'desktop::docker'
 include_recipe 'desktop::emacs'
+include_recipe 'desktop::fonts'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
