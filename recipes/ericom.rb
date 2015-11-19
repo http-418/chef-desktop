@@ -9,7 +9,7 @@
 # The Ericom Blaze client is not publicly available.  Unless the
 # download URL attribute is overriden, this recipe is a no-op.
 #
-if node['desktop']['ericom']['url']
+if (node['desktop']['ericom']['url'] rescue nil)
 
   ericom_directory = Chef::Config['file_cache_path'] + '/ericom'
   ericom_tarball = ericom_directory + '/RDP_Linux_R2.tar.gz'
