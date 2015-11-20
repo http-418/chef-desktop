@@ -7,13 +7,19 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'desktop::apt'
+
 if node['platform'] != 'debian'
-  Chef::Log.warn('desktop::wine is a no-op on Ubuntu, because no ' +
-                 'modern wine version is available from upstream!')
-else
-  # The apt recipe configures multiarch.
-  include_recipe 'desktop::apt'
-  
+  apt_repository 'wine_ppa' do
+    uri 'http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu'
+    distribution node[:lsb][:codename]
+    components ['main']
+    key '5A9A06AEF9CB8DB0'
+    keyserver 'keyserver.ubuntu.com'
+  end
+
+  package [ 'wine1.7', 'wine-gecko2.40' ]
+else  
   # Modern wine is only available via backports.
   include_recipe 'desktop::backports'
 
