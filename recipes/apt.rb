@@ -29,13 +29,6 @@ file '/etc/apt/apt.conf.d/02dpkg-options' do
   EOM
 end
 
-apt_repository 'google-chrome-unstable' do
-  uri 'http://dl.google.com/linux/chrome/deb/'
-  components ['stable', 'main']
-  keyserver 'keyserver.ubuntu.com'
-  key 'A040830F7FAC5991'
-end
-
 execute 'configure-multiarch' do
   command 'dpkg --add-architecture i386'
   not_if 'dpkg --print-foreign-architectures | grep i386'

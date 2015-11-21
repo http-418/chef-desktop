@@ -23,7 +23,12 @@ else
   # Modern wine is only available via backports.
   include_recipe 'desktop::backports'
 
-  package 'wine-development' do
+  apt_preference 'wine-development' do
+    pin 'release a=jessie-backports'
+    pin_priority '600'
+  end
+
+  apt_package 'wine-development' do
     options "-t #{node[:lsb][:codename]}-backports"
     action [:install, :upgrade]
   end
@@ -75,6 +80,7 @@ else
     mode 0555
     content <<-EOM
       export WINE=/usr/bin/wine-development
+      alias wine=$WINE
     EOM
   end
 end
