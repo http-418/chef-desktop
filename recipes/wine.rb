@@ -68,4 +68,13 @@ else
           ] do
     action :remove
   end
+
+  package 'winetricks'
+
+  file '/etc/profile.d/wine.sh' do
+    mode 0555
+    content <<-EOM
+      export WINE=/usr/bin/wine-development
+    EOM
+  end
 end
