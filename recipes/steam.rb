@@ -10,13 +10,24 @@
 # EULA, but that should not happen anymore.
 #
 include_recipe 'desktop::apt'
+include_recipe 'desktop::user'
 
 apt_repository 'steam' do
   uri 'http://repo.steampowered.com/steam/'
   components ['precise', 'steam']
   keyserver 'keyserver.ubuntu.com'
   key 'F24AEA9FB05498B7'
-  notifies :run, 'execute[apt-get update]', :immediately
+end
+
+if node[:platform] == 'ubuntu'
+  # It has to be glob * because steam is an i386 package, and
+  # apt_preferences doesn't understand multiarch package names.
+  apt_preference 'steam' do
+    glob '*'
+    pin 'origin repo.steampowered.com'
+    pin_priority '600'
+    notifies :run, 'execute[apt-get update]', :immediately
+  end
 end
 
 # Hidden dependencies not reflected in apt, for some reason.
@@ -28,7 +39,11 @@ package [
  'libpulse0:i386',
  'libpulse0',
 ] do
-  action :install
+  action :upgrade
+end
+
+package [ 'debconf-utils', 'unzip', ] do
+  action :upgrade
 end
 
 # Steam's extra special fonts.
@@ -49,10 +64,27 @@ execute 'steam-fonts-unzip' do
   user node['desktop']['user']['name']
   command "unzip -d #{user_fonts_path} #{steam_fonts_zip_path}"
   creates "#{user_fonts_path}/arialbd.ttf"
-end  
+end
+
+# Accept the Steam EULA.
+steam_selections_path = Chef::Config[:file_cache_path] + '/steam.selections'
+file steam_selections_path do
+  mode 0444
+  content <<-EOM.gsub(/^ {4}/,'')
+    # STEAM LICENSE AGREEMENT (ARROW keys scroll, TAB key to move to "Ok")
+    steam   steam/license   note
+    # STEAM PURGE NOTE
+    steam   steam/purge     note
+    # Do you agree to all terms of the Steam License Agreement?
+    steam   steam/question  select  I AGREE
+  EOM
+end
+
+execute 'accept-steam-eula' do
+  command "cat #{steam_selections_path} | debconf-set-selections"
+end
 
 apt_package 'steam' do
-  action :install
-  options '-y'
+  action :upgrade
 end
   
