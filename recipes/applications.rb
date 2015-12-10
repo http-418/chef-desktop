@@ -55,6 +55,7 @@ package [
  'irssi',
  'ldap-utils',
  'mediainfo',
+ 'ncftp',
  'ntpdate',
  'screen',
  'smartmontools',
