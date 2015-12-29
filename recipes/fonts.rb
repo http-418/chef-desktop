@@ -7,6 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+execute 'fc-cache -fv' do
+  action :nothing
+end
+
 # Accept the EULA for Microsoft's web fonts.
 # Georgia and MS Comic Sans are the really key ones here.
 execute 'accept-mscorefonts-eula' do
