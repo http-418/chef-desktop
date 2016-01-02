@@ -7,8 +7,10 @@ long_description 'Installs/Configures desktop'
 version          '0.1.0'
 
 depends 'apt'
+depends 'ark'
 depends 'debian', '~> 1.8'
-depends 'java'
+depends 'java', '~> 1.0'
 depends 'nodejs'
+depends 'ruby_build'
+depends 'ruby_rbenv'
 depends 'ubuntu'
-
