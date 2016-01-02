@@ -15,6 +15,7 @@ package [
   'debconf-utils', # debconf-get-selections
   'dnsutils',
   'dos2unix',
+  'ethtool',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
   'krb5-user',
   'mdadm',
