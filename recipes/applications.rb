@@ -50,6 +50,8 @@ package [
  'autossh',
  'avahi-utils',
  'bvi',
+ 'cadaver', # cli webdav client
+ 'davfs2',
  'gddrescue',
  'icoutils', # wrestool
  'imagemagick',
@@ -58,6 +60,7 @@ package [
  'mediainfo',
  'ncftp',
  'ntpdate',
+ 'pwgen',
  'screen',
  'smartmontools',
  'smbclient',
@@ -71,10 +74,6 @@ package [
  'winetricks',
 ] do
  action :install
-end
-
-execute 'fc-cache -fv' do
-  action :nothing
 end
 
 # desktop applications
@@ -118,6 +117,7 @@ end
 include_recipe 'desktop::docker'
 include_recipe 'desktop::emacs'
 include_recipe 'desktop::fonts'
+include_recipe 'desktop::hub'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
