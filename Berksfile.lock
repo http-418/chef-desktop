@@ -16,6 +16,7 @@ GRAPH
     apt (< 3.0)
   desktop (0.1.0)
     apt (>= 0.0.0)
+    ark (>= 0.0.0)
     debian (~> 1.8)
     java (~> 1.0)
     nodejs (>= 0.0.0)

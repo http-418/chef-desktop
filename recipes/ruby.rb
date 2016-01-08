@@ -8,8 +8,10 @@ node.default[:rbenv][:root_path] = '/opt/rbenv'
 node.default[:rbenv][:rubies] = [ '2.1.8', '2.3.0' ]
 
 # Install bundler gem in every ruby.
+# (Vagrant requires bundler <= 1.10.6)
 node.default[:rbenv][:gems] = node[:rbenv][:rubies]
-  .map { |v| { v => [{ 'name' => 'bundler' }] } }
+  .map { |v| { v => [{ 'name' => 'bundler',
+                       'version' => '1.10.6' }] } }
   .reduce({}, :merge)
 
 include_recipe 'ruby_build'
