@@ -1,3 +1,4 @@
+include_recipe 'apt'
 
 package [ 
          'gconf2', 
