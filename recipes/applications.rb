@@ -18,6 +18,9 @@ package [
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
   'krb5-user',
   'mdadm',
+  'nmon',
+  'ntpdate',
+  'smartmontools',
   'sudo',
   'unzip',
   'zip',
@@ -57,10 +60,8 @@ package [
  'irssi',
  'ldap-utils',
  'mediainfo',
- 'ntpdate',
  'pwgen',
  'screen',
- 'smartmontools',
  'smbclient',
  'sqlite',
  'strace',
@@ -98,7 +99,6 @@ package [
   'pidgin',
   'pidgin-otr',
   'pulseaudio',
-  'wireshark',
   'xclip',
   'xinput',
   'xnest',
@@ -121,5 +121,6 @@ include_recipe 'desktop::google-chrome'
 include_recipe 'desktop::vagrant'
 include_recipe 'desktop::virtualbox'
 include_recipe 'desktop::youtube-dl'
+include_recipe 'desktop::wireshark'
 
 
