@@ -62,6 +62,8 @@ package [
  'ldap-utils',
  'mediainfo',
  'ncftp',
+ 'ntpdate',
+ 'picocom',
  'pwgen',
  'screen',
  'smbclient',
