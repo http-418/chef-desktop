@@ -14,6 +14,7 @@ include_recipe 'desktop::apt'
 include_recipe 'desktop::bluetooth'
 include_recipe 'desktop::irqbalance'
 include_recipe 'desktop::pc-speaker'
+include_recipe 'desktop::pulseaudio'
 include_recipe 'desktop::synaptics'
 
 package 'pciutils'
