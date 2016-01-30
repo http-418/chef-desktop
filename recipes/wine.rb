@@ -19,6 +19,13 @@ if node['platform'] != 'debian'
   end
 
   package [ 'wine1.7', 'wine-gecko2.40' ]
+
+  file '/etc/profile.d/wine.sh' do
+    mode 0555
+    content <<-EOM
+      export WINE=/usr/bin/wine
+    EOM
+  end
 else  
   # Modern wine is only available via backports.
   include_recipe 'desktop::backports'
