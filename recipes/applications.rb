@@ -127,4 +127,6 @@ include_recipe 'desktop::virtualbox'
 include_recipe 'desktop::youtube-dl'
 include_recipe 'desktop::wireshark'
 
-
+package [ 'nano' ] do
+  action :remove
+end
