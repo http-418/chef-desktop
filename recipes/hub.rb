@@ -33,6 +33,7 @@ hub_path =
 execute 'hub-install' do
   command 'install -m 0555 -T ' +
     "#{hub_path}/bin/hub /usr/local/bin/hub"
+  not_if "diff #{hub_path}/bin/hub /usr/local/bin/hub"
 end
 
 directory '/usr/local/share/man/man1' do
