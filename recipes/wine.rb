@@ -9,6 +9,7 @@
 
 include_recipe 'desktop::apt'
 
+# TODO: install winetricks on Ubuntu
 if node['platform'] != 'debian'
   apt_repository 'wine_ppa' do
     uri 'http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu'
