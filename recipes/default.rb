@@ -8,7 +8,7 @@
 #
 
 # apt
-include_recipe 'desktop::apt'
+include_recipe 'apt'
 
 # Hardware.
 include_recipe 'desktop::bluetooth'

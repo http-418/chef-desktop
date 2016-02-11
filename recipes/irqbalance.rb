@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'desktop::apt'
+include_recipe 'apt'
 
 package 'irqbalance'
 

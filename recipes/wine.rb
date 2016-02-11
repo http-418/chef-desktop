@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'desktop::apt'
+include_recipe 'apt'
 
 if node['platform'] != 'debian'
   apt_repository 'wine_ppa' do
