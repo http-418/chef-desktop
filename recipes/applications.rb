@@ -127,4 +127,8 @@ include_recipe 'desktop::virtualbox'
 include_recipe 'desktop::youtube-dl'
 include_recipe 'desktop::wireshark'
 
+# Update GDK pixbuf backends after package installation.
+execute 'gdk-pixbuf-query-loaders --update-cache' do
+  user 'root'
+end
 
