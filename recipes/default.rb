@@ -31,6 +31,11 @@ else
   package 'xserver-xorg-video-all'
 end
 
+if (node[:virtualization][:system] == 'vbox' &&
+    node[:virtualization][:role] == 'guest')
+  include_recipe 'desktop::virtualbox-guest'
+end
+
 # Software.
 include_recipe 'desktop::applications'
 include_recipe 'desktop::ssh'
