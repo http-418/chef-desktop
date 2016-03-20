@@ -4,9 +4,12 @@
 # Author:: Andrew Jones
 #
 # This recipe compiles a recent emacs release from git. elpa/melpa
-# support for old versions of emacs is spotty, at best.  It's
+# support for old versions of emacs is spotty at best.  It's
 # important to be no more than a year or two behind.
 #
+
+include_recipe 'desktop::apt'
+include_recipe 'desktop::user'
 
 package [
   'build-essential',

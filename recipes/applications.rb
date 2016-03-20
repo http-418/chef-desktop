@@ -10,6 +10,8 @@
 # Complex installs get their own recipes (e.g. kde, wine)
 #
 
+include_recipe 'desktop::apt'
+
 # system utilities
 package [
   'debconf-utils', # debconf-get-selections
@@ -37,6 +39,7 @@ package [
  'bison',
  'build-essential',
  'cloc',
+ 'doxygen',
  'flex',
  'git',
  'libpq-dev',
@@ -44,6 +47,7 @@ package [
  'libpq-dev',
  'python3',
  'silversearcher-ag',
+ 'valgrind',
 ] do
   action :install
 end
@@ -52,6 +56,7 @@ end
 package [
  'autossh',
  'avahi-utils',
+ 'bchunk',
  'bvi',
  'cadaver', # cli webdav client
  'davfs2',
@@ -114,6 +119,10 @@ end
 
 link '/usr/bin/t' do
   to '/usr/bin/mrxvt'
+end
+
+link '/usr/bin/mplayer' do
+  to '/usr/bin/mpv'
 end
 
 include_recipe 'desktop::docker'
