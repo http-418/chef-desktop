@@ -9,7 +9,7 @@
 # This recipe installs Steam and its fonts.  It used to fail due to an
 # EULA, but that should not happen anymore.
 #
-include_recipe 'desktop::apt'
+include_recipe 'apt'
 include_recipe 'desktop::user'
 
 apt_repository 'steam' do

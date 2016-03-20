@@ -130,3 +130,9 @@ include_recipe 'desktop::wireshark'
 package [ 'nano' ] do
   action :remove
 end
+
+# Update GDK pixbuf backends after package installation.
+execute 'gdk-pixbuf-query-loaders --update-cache' do
+  user 'root'
+end
+

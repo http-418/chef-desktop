@@ -9,12 +9,15 @@
 
 apt_repository 'google-chrome-unstable' do
   uri 'http://dl.google.com/linux/chrome/deb/'
+  arch 'amd64'
   components ['stable', 'main']
   keyserver 'keyserver.ubuntu.com'
   key 'A040830F7FAC5991'
 end
 
-package [ 'google-chrome-unstable', 'google-chrome-beta' ]
+package [ 'google-chrome-unstable', 'google-chrome-beta' ] do
+  action :upgrade
+end
 
 # Delete one of the sources lists to avoid spurious warnings.
 file '/etc/apt/sources.list.d/google-chrome-beta.list' do

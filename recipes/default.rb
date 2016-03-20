@@ -8,7 +8,7 @@
 #
 
 # apt
-include_recipe 'desktop::apt'
+include_recipe 'apt'
 
 # Hardware.
 include_recipe 'desktop::bluetooth'
@@ -29,6 +29,11 @@ else
   end
   package 'xserver-xorg'
   package 'xserver-xorg-video-all'
+end
+
+if (node[:virtualization][:system] == 'vbox' &&
+    node[:virtualization][:role] == 'guest')
+  include_recipe 'desktop::virtualbox-guest'
 end
 
 # Software.
