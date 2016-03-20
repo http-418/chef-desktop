@@ -10,10 +10,11 @@
 # This recipe updates it directly from git.
 #
 
+include_recipe 'apt'
+
+package [ 'ffmpeg', 'pandoc' ]
+
 ytdl_src_path = '/usr/local/src/youtube-dl'
-
-package 'pandoc'
-
 directory ytdl_src_path do
   user node['desktop']['user']['name']
   group node['desktop']['user']['group']
