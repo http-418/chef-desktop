@@ -9,6 +9,7 @@
 
 apt_repository 'google-chrome-unstable' do
   uri 'http://dl.google.com/linux/chrome/deb/'
+  arch 'amd64'
   components ['stable', 'main']
   keyserver 'keyserver.ubuntu.com'
   key 'A040830F7FAC5991'
