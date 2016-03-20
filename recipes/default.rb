@@ -16,25 +16,7 @@ include_recipe 'desktop::irqbalance'
 include_recipe 'desktop::pc-speaker'
 include_recipe 'desktop::pulseaudio'
 include_recipe 'desktop::synaptics'
-
-package 'pciutils'
-
-# Don't configure nvidia drivers on non-nvidia systems.
-if system('lspci | grep VGA | grep -i nvidia') 
-  include_recipe 'desktop::nvidia'
-else
-  log 'This system does not contain an nVidia GPU'
-  file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
-    action :delete
-  end
-  package 'xserver-xorg'
-  package 'xserver-xorg-video-all'
-end
-
-if (node[:virtualization][:system] == 'vbox' &&
-    node[:virtualization][:role] == 'guest')
-  include_recipe 'desktop::virtualbox-guest'
-end
+include_recipe 'desktop::graphics'
 
 # Software.
 include_recipe 'desktop::applications'

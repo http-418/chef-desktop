@@ -63,19 +63,41 @@ end
 
 execute 'depmod -a'
 
-directory '/etc/X11/xorg.conf.d/' do
-  recursive true
-  mode 0555
-end
-
 file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
   mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
+    #
     # This file is maintained by Chef.
     # Local changes will be overwritten.
+    #
     Section "Device"
       Identifier "Nvidia GPU"
       Driver "nvidia"
     EndSection
   EOM
+end
+
+# The nVidia driver has tearing under opengl.
+file '/etc/mpv.conf' do
+  mode 0444
+  content <<-EOM.gsub(/^ {4}/,'')
+    #
+    # This file is maintained by Chef.
+    # Local changes will be reverted.
+    #
+
+    # Use XV to avoid tearing.
+    vo=xv
+
+    # Aggressive smoothing.
+    vf=hqdn3d
+  EOM
+end
+
+directory '/etc/mplayer' do
+  mode 0555
+end
+
+link '/etc/mplayer/mplayer.conf' do
+  to '/etc/mpv.conf'
 end

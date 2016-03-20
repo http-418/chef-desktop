@@ -12,7 +12,11 @@ platforms:
 suites:
   - name: steam
     run_list:
+      - recipe[desktop::graphics]
+      - recipe[desktop::kde]
       - recipe[desktop::steam]
   - name: wine
     run_list:
+      - recipe[desktop::graphics]
+      - recipe[desktop::kde]
       - recipe[desktop::wine]
