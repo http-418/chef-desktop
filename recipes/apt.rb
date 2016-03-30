@@ -10,7 +10,7 @@
 if node['platform'] == 'debian'
   platform_recipe = 'debian'
 elsif node['platform'] == 'ubuntu'
-  platform_recipe 'ubuntu'
+  platform_recipe = 'ubuntu'
 else
   raise "Unsupported platform: #{node['platform']}"
 end
