@@ -116,3 +116,27 @@ Dir.glob('/usr/share/ca-certificates/mozilla/*').each do |source_path|
 end
 
 execute 'c_rehash /opt/Citrix/ICAClient/keystore/cacerts/'
+
+# Attempt to install a default wfclient.ini with TWIUse_NET_ACTIVE=Off
+begin
+  citrix_directory = File.join(node['desktop']['user']['home'], '.ICAClient')
+  citrix_ini_path = File.join(citrix_directory, 'wfclient.ini')
+
+  directory citrix_directory do
+    user node['desktop']['user']['name']
+    group node['desktop']['user']['group']
+    mode 0770
+  end
+
+  template citrix_ini_path  do
+    source 'citrix/wfclient.ini.erb'
+    mode 0660
+    not_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
+  end
+
+  log 'Skipping default Citrix wfclient.ini, TWIUse_NET_ACTIVE already set' do
+    only_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
+  end  
+rescue
+  log 'Skipping default Citrix wfclient.ini, unable to load desktop user'
+end
