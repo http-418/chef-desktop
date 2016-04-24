@@ -71,6 +71,7 @@ package [
  'ntpdate',
  'picocom',
  'pwgen',
+ 'rsync',
  'screen',
  'smbclient',
  'sqlite',
