@@ -1,5 +1,8 @@
 # -*- mode: conf -*-
-# Chef.
+#
+# This file is managed by Chef.
+# Local changes will be reverted.
+#
 
 Port 22
 Protocol 2
@@ -29,6 +32,7 @@ RhostsRSAAuthentication no
 HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
+PasswordAuthentication no
 
 X11Forwarding yes
 X11DisplayOffset 10
@@ -41,3 +45,12 @@ AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
 
 UsePAM yes
+
+<% @sftp_chroots.each do |chroot| %>
+Match User <%= chroot['user'] %>
+  ChrootDirectory <%= chroot['directory'] %>
+  AllowTCPForwarding no
+  X11Forwarding no
+  ForceCommand internal-sftp
+  PasswordAuthentication yes
+<% end %>

@@ -5,4 +5,3 @@ default['desktop']['user'].tap do |user|
   user['gid'] = '1000'
   user['home'] = '/home/ajones'
 end
-
