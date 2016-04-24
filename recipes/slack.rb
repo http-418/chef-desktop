@@ -1,4 +1,14 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: slack
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
+
 include_recipe 'apt'
+include_recipe 'desktop::libgcrypt11'
 
 package [ 
          'gconf2', 
