@@ -23,6 +23,7 @@ package [
   'mdadm',
   'nmon',
   'ntpdate',
+  'pv',
   'smartmontools',
   'sudo',
   'unzip',
