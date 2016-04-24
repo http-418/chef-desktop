@@ -8,6 +8,7 @@
 #
 
 if node['platform'] == 'debian'
+  node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
   platform_recipe = 'debian'
 elsif node['platform'] == 'ubuntu'
   platform_recipe = 'ubuntu'
