@@ -49,6 +49,7 @@ package [
  'python3',
  'silversearcher-ag',
  'valgrind',
+ 'xmldiff'
 ] do
   action :install
 end
