@@ -19,7 +19,7 @@ else
   apt_repository 'backports' do
     uri 'http://http.debian.net/debian'
     distribution "#{node[:lsb][:codename]}-backports"
-    components ['main']
+    components ['main', 'contrib', 'non-free']
     notifies :run, 'execute[apt-get update]', :immediately
   end
 end
