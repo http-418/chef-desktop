@@ -12,7 +12,13 @@
 
 include_recipe 'apt'
 
-package [ 'ffmpeg', 'pandoc' ]
+if node['platform'] == 'debian'
+  package [ 'ffmpeg', 'pandoc' ]
+elsif node['platform'] == 'ubuntu'
+  package [ 'libav-tools', 'pandoc' ]
+else
+  raise "Unsupported platform: #{node['platform']}"
+end
 
 ytdl_src_path = '/usr/local/src/youtube-dl'
 directory ytdl_src_path do
