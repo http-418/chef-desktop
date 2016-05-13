@@ -21,8 +21,8 @@ template '/etc/pulse/daemon.conf' do
 end
 
 execute 'pulseaudio-restart' do
-  command 'pulseaudio -k'
-  user node['desktop']['user']['name']
+  command 'killall -15 pulseaudio'
+  only_if 'pgrep pulseaudio'
   action :nothing
-  only_if "pgrep -U #{node['desktop']['user']['name']} pulseaudio"
+  ignore_failure true
 end
