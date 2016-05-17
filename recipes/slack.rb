@@ -33,7 +33,7 @@ apt_repository 'slacktechnologies_slack' do
   components ['main']
   distribution 'jessie'
   key 'https://packagecloud.io/slacktechnologies/slack/gpgkey'
-  uri "https://packagecloud.io/slacktechnologies/slack/debian/"
+  uri 'https://packagecloud.io/slacktechnologies/slack/debian/'
 end
 
 package 'slack-desktop'
