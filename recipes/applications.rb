@@ -19,6 +19,8 @@ package [
   'dos2unix',
   'ethtool',
   node['platform']  == 'debian' ? 'firmware-linux-nonfree' : nil,
+  'hfsprogs',
+  'hfsplus',
   'krb5-user',
   'mdadm',
   'nmon',
