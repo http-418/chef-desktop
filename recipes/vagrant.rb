@@ -27,3 +27,17 @@ dpkg_package 'vagrant' do
   action :install
   source vagrant_path
 end
+
+# Vagrant ships its own SSL CAs.
+# We force it to use system-wide SSL instead.
+
+vagrant_ca_path = '/opt/vagrant/embedded/cacert.pem'
+
+file vagrant_ca_path do
+  action :delete
+  not_if { File.symlink?(vagrant_ca_path) }
+end
+
+link vagrant_ca_path do
+  to '/etc/ssl/certs/ca-certificates.crt'
+end
