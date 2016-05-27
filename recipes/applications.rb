@@ -78,6 +78,7 @@ package [
  'screen',
  'smbclient',
  'sqlite',
+ 'sshpass',
  'strace',
  'sysstat',
  'tcpdump',
