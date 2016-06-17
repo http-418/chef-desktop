@@ -22,6 +22,7 @@ end
   'yakuake'
 ].each do |package_name|
   package package_name
+  timeout 3600
 end
 
 service 'kdm' do
