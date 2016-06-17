@@ -31,6 +31,7 @@ end
 execute 'kdm-reconfigure' do
   command 'dpkg-reconfigure -f noninteractive kdm'
   action :nothing
+  only_if 'dpkg --get-selections | grep ^kdm | grep -v deinstall'
 end
 
 apps_directory = '/usr/share/kde4/apps/'
