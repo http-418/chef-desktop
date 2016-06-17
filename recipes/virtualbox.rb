@@ -13,7 +13,7 @@ apt_repository 'virtualbox' do
   uri 'http://download.virtualbox.org/virtualbox/debian'
   components ['contrib']
   distribution node[:lsb][:codename]
-  key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+  key 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
   action :add
 end
 
