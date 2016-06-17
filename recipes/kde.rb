@@ -9,9 +9,9 @@ include_recipe 'desktop::apt'
 
 package 'debconf-utils'
 
-execute "kde-preseed-#{dm_package}" do
-  command "echo \"#{dm_package} shared/default-x-display-manager select #{dm_package}\" | debconf-set-selections"
-  not_if "debconf-get-selections | grep shared/default-x-display-manager | grep \"#{dm_package}$\""
+execute "kde-preseed-#{node[:desktop][:display_manager]}" do
+  command "echo \"#{node[:desktop][:display_manager]} shared/default-x-display-manager select #{node[:desktop][:display_manager]}\" | debconf-set-selections"
+  not_if "debconf-get-selections | grep shared/default-x-display-manager | grep \"#{node[:desktop][:display_manager]}$\""
   notifies :run, "execute[#{node[:desktop][:display_manager]}-reconfigure]"
 end
 
