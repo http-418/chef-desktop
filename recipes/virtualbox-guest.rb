@@ -21,7 +21,7 @@ if (node[:virtualization][:system] == 'vbox' &&
 
   file '/etc/X11/xorg.conf.d/20-vboxvideo.conf' do
     mode 0444
-    content <<-EOM.gsub(/^ {4}/,'')
+    content <<-EOM.gsub(/^ {6}/,'')
       # This file is maintained by Chef.
       # Local changes will be overwritten.
       Section "Device"
