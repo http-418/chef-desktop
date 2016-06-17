@@ -9,37 +9,39 @@ include_recipe 'desktop::apt'
 
 package 'debconf-utils'
 
-execute 'kde-preseed-kdm' do
-  command 'echo "kdm shared/default-x-display-manager select kdm" | debconf-set-selections'
-  not_if 'debconf-get-selections | grep shared/default-x-display-manager | grep "kdm$"'
-  notifies :run, 'execute[kdm-reconfigure]'
+execute "kde-preseed-#{dm_package}" do
+  command "echo \"#{dm_package} shared/default-x-display-manager select #{dm_package}\" | debconf-set-selections"
+  not_if "debconf-get-selections | grep shared/default-x-display-manager | grep \"#{dm_package}$\""
+  notifies :run, "execute[#{node[:desktop][:display_manager]}-reconfigure]"
 end
 
 package [
           'plasma-desktop',
           'kscreen', # Display settings are absent without this package.
           'yakuake',
-          'kdm'
+          node[:desktop][:display_manager]
         ] do
   action :install
   timeout 3600
 end
 
-if node[:platform] == 'ubuntu' &&
-    Gem::Version.new(node[:platform_version]) >= Gem::Version.new('16.04')
-  log 'plasma-widget-adjustableclock is missing from 16.04!'
-else
-  package 'plasma-widget-adjustableclock'
-end
-
-service 'kdm' do
+service node[:desktop][:display_manager] do
   action [ :start, :enable ]
 end
 
-execute 'kdm-reconfigure' do
-  command 'dpkg-reconfigure -f noninteractive kdm'
+execute "#{node[:desktop][:display_manager]}-reconfigure" do
+  command "dpkg-reconfigure -f noninteractive #{node[:desktop][:display_manager]}"
   action :nothing
-  only_if 'dpkg --get-selections | grep ^kdm | grep -v deinstall'
+  only_if "dpkg --get-selections | grep ^#{node[:desktop][:display_manager]} | grep -v deinstall"
+end
+
+# Ubuntu 16.04+ are missing plasma-widget-adjustableclock
+if node[:platform] == 'ubuntu' &&
+    Gem::Version.new(node[:platform_version]) >= Gem::Version.new('16.04')
+  log 'plasma-widget-adjustableclock is missing from 16.04 and above!'
+  log 'TODO: build adjustableclock from source.'
+else
+  package 'plasma-widget-adjustableclock'
 end
 
 apps_directory = '/usr/share/kde4/apps/'
