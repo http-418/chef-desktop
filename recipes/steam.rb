@@ -11,6 +11,8 @@
 #
 include_recipe 'apt'
 include_recipe 'desktop::user'
+include_recipe 'desktop::steam_fonts'
+include_recipe 'desktop::steam_controller_udev_rules'
 
 apt_repository 'steam' do
   uri 'http://repo.steampowered.com/steam/'
@@ -42,28 +44,8 @@ package [
   action :upgrade
 end
 
-package [ 'debconf-utils', 'unzip', ] do
+package 'debconf-utils' do
   action :upgrade
-end
-
-# Steam's extra special fonts.
-steam_fonts_zip_path = Chef::Config[:file_cache_path] + '/SteamFonts.zip'
-user_fonts_path = node['desktop']['user']['home'] + '/.fonts'
-remote_file steam_fonts_zip_path  do
-  source 'https://support.steampowered.com/downloads/1974-YFKL-4947/SteamFonts.zip'
-  checksum 'a03bcc9581f2896cac39967633fc43546af5ed9d73d505a10cae4016797dfeb1'
-end
-
-directory user_fonts_path do
-  user node['desktop']['user']['name']
-  group node['desktop']['user']['group']
-  mode 0755
-end
-
-execute 'steam-fonts-unzip' do
-  user node['desktop']['user']['name']
-  command "unzip -d #{user_fonts_path} #{steam_fonts_zip_path}"
-  creates "#{user_fonts_path}/arialbd.ttf"
 end
 
 # Accept the Steam EULA.
