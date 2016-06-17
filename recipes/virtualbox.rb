@@ -19,6 +19,7 @@ end
 
 package 'virtualbox-4.3' do
   action :remove
+  only_if 'dpkg --get-selections | grep virtualbox-4.3'
 end
    
 package [ 
