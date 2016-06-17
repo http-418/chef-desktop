@@ -15,14 +15,21 @@ execute 'kde-preseed-kdm' do
   notifies :run, 'execute[kdm-reconfigure]'
 end
 
-[
-  'kde-plasma-desktop',
-  'kscreen', # Display settings are absent without this package.
-  'plasma-widget-adjustableclock',
-  'yakuake'
-].each do |package_name|
-  package package_name
+package [
+          'plasma-desktop',
+          'kscreen', # Display settings are absent without this package.
+          'yakuake',
+          'kdm'
+        ] do
+  action :install
   timeout 3600
+end
+
+if node[:platform] == 'ubuntu' &&
+    Gem::Version.new(node[:platform_version]) >= Gem::Version.new('16.04')
+  log 'plasma-widget-adjustableclock is missing from 16.04!'
+else
+  package 'plasma-widget-adjustableclock'
 end
 
 service 'kdm' do
