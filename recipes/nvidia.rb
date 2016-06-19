@@ -21,7 +21,7 @@ file '/etc/modprobe.d/nouveau-blacklist.conf' do
     # Local changes will be overwritten.
     blacklist nouveau
   EOM
-  notifies :run, 'execute[nvidia-depmod]'
+  notifies :run, 'execute[nvidia-depmod]', :immediately
 end
 
 execute 'nvidia-depmod' do
@@ -37,27 +37,45 @@ if node['platform'] == 'debian'
    'nvidia-kernel-dkms',
    'nvidia-settings',
    'nvidia-alternative',
+   'nvidia-modprobe',
    'xserver-xorg-video-nvidia',
   ] do
     action :install
   end
 elsif node['platform'] == 'ubuntu'
+  include_recipe 'desktop::backports'
   package [
    'build-essential',
    'linux-headers-generic',
-   'nvidia-current'
+   'nvidia-current',
+   'nvidia-modprobe',
   ] do
     action :install
   end
 end
 
-module_conf_path = '/etc/modprobe.d/nvidia.conf'
-file module_conf_path do
+file '/etc/modules-load.d/nvidia.conf' do
   mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
+    #
     # This file is maintained by Chef.
     # Local changes will be overwritten.
-    install nvidia /bin/true
+    #
+    nvidia
+    nvidia_uvm
+  EOM
+end
+
+file '/etc/modprobe.d/nvidia.conf' do
+  mode 0444
+  content <<-EOM.gsub(/^ {4}/,'')
+    #
+    # This file is maintained by Chef.
+    # Local changes will be overwritten.
+    #
+    # This file is no longer needed with modern nVidia driver packages.
+    # Chef overwrites it to ensure it is empty.
+    #
   EOM
 end
 
