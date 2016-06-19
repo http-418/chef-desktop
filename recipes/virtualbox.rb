@@ -13,12 +13,13 @@ apt_repository 'virtualbox' do
   uri 'http://download.virtualbox.org/virtualbox/debian'
   components ['contrib']
   distribution node[:lsb][:codename]
-  key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+  key 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
   action :add
 end
 
 package 'virtualbox-4.3' do
   action :remove
+  only_if 'dpkg --get-selections | grep virtualbox-4.3'
 end
    
 package [ 

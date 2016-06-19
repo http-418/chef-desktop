@@ -33,6 +33,7 @@ package [
   'p7zip-full'
 ].compact do
   action :install
+  timeout 3600
 end
 
 # development
@@ -54,6 +55,7 @@ package [
  'xmldiff'
 ] do
   action :install
+  timeout 3600
 end
 
 # other CLI applications
@@ -87,7 +89,8 @@ package [
  'whois',
  'winetricks',
 ] do
- action :install
+  action :install
+  timeout 3600
 end
 
 # desktop applications
@@ -121,6 +124,7 @@ package [
   'xterm',
 ].compact do
   action :install
+  timeout 3600
 end
 
 link '/usr/bin/t' do

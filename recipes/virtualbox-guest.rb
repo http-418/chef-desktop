@@ -21,15 +21,15 @@ if (node[:virtualization][:system] == 'vbox' &&
 
   file '/etc/X11/xorg.conf.d/20-vboxvideo.conf' do
     mode 0444
-    content <<-EOM.gsub(/^ {4}/,'')
-    # This file is maintained by Chef.
-    # Local changes will be overwritten.
-    Section "Device"
-      Identifier "VirtualBox"
-      Driver "vboxvideo"
-    EndSection
-  EOM
-    notifies :restart, 'service[kdm]'
+    content <<-EOM.gsub(/^ {6}/,'')
+      # This file is maintained by Chef.
+      # Local changes will be overwritten.
+      Section "Device"
+        Identifier "VirtualBox"
+        Driver "vboxvideo"
+      EndSection
+    EOM
+    notifies :restart, "service[#{node[:desktop][:display_manager]}]"
   end
 
 else
