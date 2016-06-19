@@ -7,10 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'apt'
+# Including desktop::apt on purpose, to configure multiarch.
+include_recipe 'desktop::apt'
 
 # TODO: install winetricks on Ubuntu
-if node['platform'] != 'debian'
+case node[:platform]
+when 'ubuntu'
   apt_repository 'wine_ppa' do
     uri 'http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu'
     distribution node[:lsb][:codename]
@@ -27,18 +29,29 @@ if node['platform'] != 'debian'
       export WINE=/usr/bin/wine
     EOM
   end
-else  
-  # Modern wine is only available via backports.
-  include_recipe 'desktop::backports'
-
-  apt_preference 'wine-development' do
-    pin 'release a=jessie-backports'
-    pin_priority '600'
+when 'debian'
+  # Remove the old wine-development builds from jessie-backports.
+  package 'wine-development' do
+    action :remove
+    only_if 'dpkg --get-selections | grep ^wine-development | ' \
+      'grep -v deinstall'
   end
 
-  apt_package 'wine-development' do
-    options "-t #{node[:lsb][:codename]}-backports"
-    action [:install, :upgrade]
+  apt_repository 'wine_staging' do
+    uri 'https://repos.wine-staging.com/debian/'
+    distribution node[:lsb][:codename]
+    components ['main']
+    key 'https://repos.wine-staging.com/Release.key'
+  end
+
+  apt_preference 'wine_staging' do
+    glob '*'
+    pin 'origin repos.wine-staging.com'
+    pin_priority '400'
+  end
+
+  package ['wine-staging', 'winehq-staging'] do
+    action :upgrade
   end
 
   #
@@ -56,38 +69,12 @@ else
     mode 0644
   end
 
-  #
-  # Un-install i386 development libraries from the old source build.
-  #
-  # These don't work correctly on a 64 bit system, because debian's
-  # multiarch design didn't plan for cross-architecture development.
-  #
-  package [
-                   'libfreetype6-dev:i386',
-                   'libglu1-mesa-dev:i386',
-                   'libxcomposite-dev:i386',
-                   'libxrandr-dev:i386',
-                   'libxi-dev:i386',
-                   'libxcursor-dev:i386',
-                   'libglu1-mesa-dev:i386',
-                   'libxcomposite-dev:i386',
-                   'libdbus-1-dev:i386',
-                   'libtiff5-dev:i386',
-                   'libncurses5-dev:i386',
-                   'libosmesa6-dev:i386',
-                   'libcups2-dev:i386',
-                   'libfontconfig1-dev:i386',
-                   'xserver-xorg-dev:i386',
-          ] do
-    action :remove
-  end
-
   package 'winetricks'
 
   file '/etc/profile.d/wine.sh' do
     mode 0555
     content <<-EOM
-      export WINE=/usr/bin/wine-development
+      export WINE=/opt/wine-staging/bin/wine
       alias wine=$WINE
     EOM
   end
