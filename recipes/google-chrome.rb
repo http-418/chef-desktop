@@ -17,6 +17,7 @@ end
 
 package [ 'google-chrome-unstable', 'google-chrome-beta' ] do
   action :upgrade
+  timeout 3600
 end
 
 # Delete one of the sources lists to avoid spurious warnings.
