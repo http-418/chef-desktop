@@ -27,7 +27,8 @@ package [
          'dkms',
          'virtualbox-5.0' 
         ] do
-    action :install
+  action :install
+  timeout 3600
 end
 
 group 'vboxusers' do
