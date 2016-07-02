@@ -64,9 +64,8 @@ file '/etc/modules-load.d/nvidia.conf' do
     # This file is maintained by Chef.
     # Local changes will be overwritten.
     #
-    nvidia
-    nvidi_current
-    nvidia_uvm
+    nvidia_current
+    nvidia_current_uvm
   EOM
 end
 
