@@ -18,11 +18,14 @@ end
 package [
           'plasma-desktop',
           'kscreen', # Display settings are absent without this package.
-          'yakuake',
-          node[:desktop][:display_manager]
+          'yakuake'
         ] do
   action :install
   timeout 3600
+end
+
+package node[:desktop][:display_manager] do
+  action :upgrade
 end
 
 service node[:desktop][:display_manager] do
