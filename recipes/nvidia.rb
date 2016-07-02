@@ -29,8 +29,10 @@ execute 'nvidia-depmod' do
   action :nothing
 end
 
+include_recipe 'desktop::backports'
+
 if node['platform'] == 'debian'
-  package [
+  apt_package [
    'build-essential',
    'linux-headers-amd64',
    'libgl1-nvidia-glx-i386',
@@ -40,17 +42,18 @@ if node['platform'] == 'debian'
    'nvidia-modprobe',
    'xserver-xorg-video-nvidia',
   ] do
-    action :install
+    action :upgrade
+    default_release "#{node[:lsb][:codename]}-backports"
   end
 elsif node['platform'] == 'ubuntu'
-  include_recipe 'desktop::backports'
-  package [
+  apt_package [
    'build-essential',
    'linux-headers-generic',
    'nvidia-current',
    'nvidia-modprobe',
   ] do
-    action :install
+    action :upgrade
+    default_release "#{node[:lsb][:codename]}-backports"
   end
 end
 
@@ -62,6 +65,7 @@ file '/etc/modules-load.d/nvidia.conf' do
     # Local changes will be overwritten.
     #
     nvidia
+    nvidi_current
     nvidia_uvm
   EOM
 end
