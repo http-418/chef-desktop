@@ -49,7 +49,7 @@ elsif node['platform'] == 'ubuntu'
   apt_package [
    'build-essential',
    'linux-headers-generic',
-   'nvidia-current',
+   'nvidia-352',
    'nvidia-modprobe',
   ] do
     action :upgrade
