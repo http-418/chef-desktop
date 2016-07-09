@@ -129,8 +129,10 @@ begin
   end
 
   template citrix_ini_path  do
-    source 'citrix/wfclient.ini.erb'
+    user node['desktop']['user']['name']
+    group node['desktop']['user']['group']
     mode 0660
+    source 'citrix/wfclient.ini.erb'
     not_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
   end
 
