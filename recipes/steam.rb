@@ -69,4 +69,34 @@ end
 apt_package 'steam' do
   action :upgrade
 end
-  
+
+#
+# Modern versions of ubuntu fail to load GL libraries if the bundled
+# libstdc++ / libgcc are enabled inside the Steam ubuntu12 runtime.
+# So we delete them.
+#
+# You will know you have been bitten if you see messages like this:
+#
+# libGL error: unable to load driver: swrast_dri.so
+# libGL error: failed to load driver: swrast
+#
+steam_lib_path =
+  File.join(node[:desktop][:user][:home],
+            '.local',
+            'share',
+            'Steam',
+            'ubuntu12_32',
+            'steam-runtime',
+            'i386',
+            'usr',
+            'lib',
+            'i386-linux-gnu')
+
+[
+ 'libstdc++.so.6',
+ 'libgcc_s.so.1'
+].each do |lib_name|
+  file File.join(steam_lib_path, lib_name) do
+    action :delete
+  end
+end
