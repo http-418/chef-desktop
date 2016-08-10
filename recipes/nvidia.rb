@@ -43,7 +43,6 @@ if node['platform'] == 'debian'
    'xserver-xorg-video-nvidia',
   ] do
     action :upgrade
-    default_release "#{node[:lsb][:codename]}-backports"
   end
 elsif node['platform'] == 'ubuntu'
   apt_package [
@@ -53,7 +52,7 @@ elsif node['platform'] == 'ubuntu'
    'nvidia-modprobe',
   ] do
     action :upgrade
-    default_release "#{node[:lsb][:codename]}-backports"
+    #default_release "#{node[:lsb][:codename]}-backports"
   end
 end
 
@@ -65,6 +64,7 @@ file '/etc/modules-load.d/nvidia.conf' do
     # Local changes will be overwritten.
     #
     nvidia_current
+    nvidia_current_modeset
     nvidia_current_uvm
   EOM
 end
