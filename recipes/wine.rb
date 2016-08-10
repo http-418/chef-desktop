@@ -54,6 +54,11 @@ when 'debian'
     action :upgrade
   end
 
+  # This is required for ntlmauth.
+  package ['winbind', 'p11-kit-modules'] do
+    action :upgrade
+  end
+
   #
   # This is the "special" gecko installer wine searches for.
   #
