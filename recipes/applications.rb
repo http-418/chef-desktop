@@ -157,7 +157,8 @@ package [ 'nano' ] do
 end
 
 # Update GDK pixbuf backends after package installation.
-execute 'gdk-pixbuf-query-loaders --update-cache' do
+execute 'gdk-pixbuf-update' do
+  command 'gdk-pixbuf-query-loaders --update-cache'
   user 'root'
 end
 
