@@ -26,7 +26,7 @@ package 'xserver-xorg-video-nouveau' do
 end
 
 file '/etc/modprobe.d/nouveau-blacklist.conf' do
-  mode 0444
+  mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     # This file is maintained by Chef.
     # Local changes will be overwritten.
@@ -50,7 +50,6 @@ if node[:platform] == 'debian'
   apt_package [
    'build-essential',
    'linux-headers-amd64',
-   #'libgl1-nvidia-glx:i386',
    'nvidia-kernel-dkms',
    'nvidia-settings',
    'nvidia-alternative',
@@ -59,6 +58,56 @@ if node[:platform] == 'debian'
   ] do
     action :upgrade
   end
+
+  #
+  # After installing the regular driver and 64 bit libs, a nasty
+  # equivs hack is required to get the 32 bit counterparts working.
+  #
+  # The libc-i386:i386 package was removed from debian at some point,
+  # but 32 bit package metadata still have hard depends on it.  Oops.
+  #
+  package 'equivs'
+  
+  build_directory =
+    File.join(Chef::Config.file_cache_path, 'libc-i386')
+
+  directory build_directory do
+    action :create
+    mode 0o755
+  end
+  
+  control_file_path =
+    File.join(build_directory, 'control_file')
+
+  package_path =
+    File.join(build_directory,'libc6-i386_99_i386.deb')
+
+  file control_file_path do
+    mode 0o444
+    content <<-EOM.gsub(/^ +/,'')
+      Section: misc
+      Priority: optional
+      Standards-Version: 3.9.20
+
+      Package: libc6-i386
+      Version: 3:99
+      Maintainer: Andrew Jones <andrew@jones.ec>
+      Architecture: i386
+      Description: Dummy package to satisfy legacy dependency.
+      Depends: libc6:i386 (>= 2.1.3)
+    EOM
+  end
+
+  execute 'libc-i386-build' do
+    require 'shellwords'
+    cwd build_directory
+    command "equivs-build -a i386 #{control_file_path.shellescape}"
+    creates package_path
+  end
+
+  dpkg_package package_path
+
+  package 'libgl1-nvidia-glx:i386'
 elsif node[:platform] == 'ubuntu'
   apt_package [
    'build-essential',
@@ -67,12 +116,11 @@ elsif node[:platform] == 'ubuntu'
    'nvidia-modprobe',
   ] do
     action :upgrade
-    #default_release "#{node[:lsb][:codename]}-backports"
   end
 end
 
 file '/etc/modules-load.d/nvidia.conf' do
-  mode 0444
+  mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
     # This file is maintained by Chef.
@@ -85,7 +133,7 @@ file '/etc/modules-load.d/nvidia.conf' do
 end
 
 file '/etc/modprobe.d/nvidia.conf' do
-  mode 0444
+  mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
     # This file is maintained by Chef.
@@ -100,7 +148,7 @@ end
 execute 'depmod -a'
 
 file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
-  mode 0444
+  mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
     # This file is maintained by Chef.
@@ -115,7 +163,7 @@ end
 
 # The nVidia driver has tearing under opengl.
 file '/etc/mpv.conf' do
-  mode 0444
+  mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
     # This file is maintained by Chef.
@@ -131,7 +179,7 @@ file '/etc/mpv.conf' do
 end
 
 directory '/etc/mplayer' do
-  mode 0555
+  mode 0o555
 end
 
 link '/etc/mplayer/mplayer.conf' do

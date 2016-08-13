@@ -19,10 +19,10 @@
 
 if node[:platform] == 'debian'
   node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
-  node.default['vdebian']['deb_src'] = true
+  node.set['debian']['deb_src'] = true
   platform_recipe = 'debian'
 elsif node[:platform] == 'ubuntu'
-  node.default['ubuntu']['deb_src'] = true
+  node.set['ubuntu']['deb_src'] = true
   platform_recipe = 'ubuntu'
 else
   raise "Unsupported platform: #{node[:platform]}"
