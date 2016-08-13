@@ -38,4 +38,10 @@ execute 'configure-multiarch' do
   notifies :run, 'execute[apt-get update]', :immediately
 end
 
+apt_preference 'default-distribution' do
+  glob '*'
+  pin "release n=#{node[:lsb][:codename]}"
+  pin_priority '700'
+end
+
 include_recipe platform_recipe

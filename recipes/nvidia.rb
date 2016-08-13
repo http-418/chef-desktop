@@ -31,11 +31,15 @@ end
 
 include_recipe 'desktop::backports'
 
-if node['platform'] == 'debian'
+if node[:platform] == 'debian'
+  if node[:lsb][:codename] == 'jessie'
+    include_recipe 'desktop::jessie_nvidia_repo'
+  end
+  
   apt_package [
    'build-essential',
    'linux-headers-amd64',
-   'libgl1-nvidia-glx-i386',
+   'libgl1-nvidia-glx:i386',
    'nvidia-kernel-dkms',
    'nvidia-settings',
    'nvidia-alternative',
@@ -44,7 +48,7 @@ if node['platform'] == 'debian'
   ] do
     action :upgrade
   end
-elsif node['platform'] == 'ubuntu'
+elsif node[:platform] == 'ubuntu'
   apt_package [
    'build-essential',
    'linux-headers-generic',

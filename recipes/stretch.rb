@@ -22,12 +22,6 @@ if node[:lsb][:id] == 'Debian' &&
     pin 'release n=stretch'
     pin_priority '500'
   end
-
-  apt_preference 'default-distribution' do
-    glob '*'
-    pin "release n=#{node[:lsb][:codename]}"
-    pin_priority '700'
-  end
 else
   apt_preference 'stretch' do
     action :remove

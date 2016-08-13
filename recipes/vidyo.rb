@@ -1,5 +1,17 @@
+#
+# Cookbook Name:: desktop
+# Recipe:: vidyo
+#
+# Copyright 2015, Andrew Jones
+#
+# All rights reserved - Do Not Redistribute
+#
 
-
+#
+# This recipe installs the VidyoDesktop client.  It is not
+# particularly useful unless you happen to have the proprietary Vidyo
+# server installed somewhere.
+#
 deb_name = 'VidyoDesktopInstaller-ubuntu64-TAG_VD_3_6_3_017.deb'
 deb_path = "#{Chef::Config[:file_cache_path]}/#{deb_name}"
 remote_file deb_path do

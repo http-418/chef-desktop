@@ -13,13 +13,18 @@ if node['platform'] == 'ubuntu'
     uri 'http://archive.ubuntu.com/ubuntu'
     distribution "#{node[:lsb][:codename]}-backports"
     components ['main', 'restricted', 'universe', 'multiverse']
-    notifies :run, 'execute[apt-get update]', :immediately
   end
 else
   apt_repository 'backports' do
     uri 'http://http.debian.net/debian'
     distribution "#{node[:lsb][:codename]}-backports"
     components ['main', 'contrib', 'non-free']
-    notifies :run, 'execute[apt-get update]', :immediately
   end
+end
+
+apt_preference "#{node[:lsb][:codename]}-backports" do
+    glob '*'
+    pin "release n=#{node[:lsb][:codename]}-backports"
+    pin_priority '700' # Same as the default distribution.
+    notifies :run, 'execute[apt-get update]', :immediately
 end
