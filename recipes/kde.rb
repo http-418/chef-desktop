@@ -20,7 +20,7 @@ package [
           'kscreen', # Display settings are absent without this package.
           'yakuake'
         ] do
-  action :install
+  action :upgrade
   timeout 3600
 end
 

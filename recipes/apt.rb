@@ -7,17 +7,21 @@
 # All rights reserved - Do Not Redistribute
 #
 
-if node['platform'] == 'debian'
+if node[:platform] == 'debian'
   node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
+  node.default['debian']['deb_src'] = true
   platform_recipe = 'debian'
-elsif node['platform'] == 'ubuntu'
+elsif node[:platform] == 'ubuntu'
+  node.default['ubuntu']['deb_src'] = true
   platform_recipe = 'ubuntu'
 else
-  raise "Unsupported platform: #{node['platform']}"
+  raise "Unsupported platform: #{node[:platform]}"
 end
 
+#
 # Force apt to keep your old configuration files when possible,
 # instead of prompting for you to make a decision.
+#
 file '/etc/apt/apt.conf.d/02dpkg-options' do
   mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
