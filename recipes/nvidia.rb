@@ -39,7 +39,7 @@ if node[:platform] == 'debian'
   apt_package [
    'build-essential',
    'linux-headers-amd64',
-   'libgl1-nvidia-glx:i386',
+   #'libgl1-nvidia-glx:i386',
    'nvidia-kernel-dkms',
    'nvidia-settings',
    'nvidia-alternative',

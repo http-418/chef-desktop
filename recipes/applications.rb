@@ -158,7 +158,7 @@ end
 
 # Update GDK pixbuf backends after package installation.
 execute 'gdk-pixbuf-update' do
-  command 'gdk-pixbuf-query-loaders --update-cache'
+  command '/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache'
   user 'root'
 end
 

@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe 'apt'
+include_recipe 'desktop::apt'
 
 if node['platform'] == 'ubuntu'
   apt_repository 'backports' do
@@ -25,6 +25,8 @@ end
 apt_preference "#{node[:lsb][:codename]}-backports" do
     glob '*'
     pin "release n=#{node[:lsb][:codename]}-backports"
-    pin_priority '700' # Same as the default distribution.
+    # Same priority as the default distribution set in desktop::apt
+    pin_priority '700'
     notifies :run, 'execute[apt-get update]', :immediately
 end
+
