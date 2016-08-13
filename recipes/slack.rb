@@ -35,7 +35,7 @@ package [
          'apt-transport-https',
          'libgnome-keyring0',
         ] do
-  action :install
+  action :upgrade
 end
 
 #
@@ -49,4 +49,6 @@ apt_repository 'slacktechnologies_slack' do
   uri 'https://packagecloud.io/slacktechnologies/slack/debian/'
 end
 
-package 'slack-desktop'
+package 'slack-desktop' do
+  action :upgrade
+end
