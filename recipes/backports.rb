@@ -41,3 +41,9 @@ apt_preference "#{node[:lsb][:codename]}-backports" do
     notifies :run, 'execute[apt-get update]', :immediately
 end
 
+# Debian's jessie-backports repo ships new core components.
+if node[:lsb][:id] == 'Debian'
+  package ['systemd', 'ifupdown'] do
+    action :upgrade
+  end
+end

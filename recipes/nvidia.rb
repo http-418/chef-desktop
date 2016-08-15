@@ -40,6 +40,7 @@ execute 'nvidia-depmod' do
   action :nothing
 end
 
+include_recipe 'desktop::apt'
 include_recipe 'desktop::backports'
 
 if node[:platform] == 'debian'
@@ -66,7 +67,9 @@ if node[:platform] == 'debian'
   # The libc-i386:i386 package was removed from debian at some point,
   # but 32 bit package metadata still have hard depends on it.  Oops.
   #
-  package 'equivs'
+  package ['equivs', 'libc6', 'libc6:i386'] do
+    action :upgrade
+  end
   
   build_directory =
     File.join(Chef::Config.file_cache_path, 'libc-i386')
@@ -105,7 +108,9 @@ if node[:platform] == 'debian'
     creates package_path
   end
 
-  dpkg_package package_path
+  dpkg_package 'libc6-i386:i386' do
+    source package_path
+  end
 
   package 'libgl1-nvidia-glx:i386'
 elsif node[:platform] == 'ubuntu'
