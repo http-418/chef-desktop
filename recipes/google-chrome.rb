@@ -17,9 +17,12 @@
 # limitations under the License.
 #
 
+include_recipe 'apt'
+
 apt_repository 'google-chrome-unstable' do
   uri 'http://dl.google.com/linux/deb/'
   arch 'amd64'
+  distribution ''
   components ['stable', 'main']
   keyserver 'keyserver.ubuntu.com'
   key 'A040830F7FAC5991'
