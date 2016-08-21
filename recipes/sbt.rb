@@ -25,7 +25,7 @@ package 'apt-transport-https'
 apt_repository 'sbt' do
   uri 'https://dl.bintray.com/sbt/debian'
   components ['/']
-  key '642AC823'
+  key '2EE0EA64E40A89B84B2DF73499E82A75642AC823'
   keyserver 'keyserver.ubuntu.com'
   action :add
   notifies :run, 'execute[apt-get update]', :immediately
