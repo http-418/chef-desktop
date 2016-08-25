@@ -42,11 +42,16 @@ end
 # Slack doesn't have official Ubuntu/Trusty repos, so we'll use the
 # Jessie repo everywhere.
 #
-apt_repository 'slacktechnologies_slack' do
+apt_repository 'slack' do
   components ['main']
   distribution 'jessie'
   key 'https://packagecloud.io/slacktechnologies/slack/gpgkey'
   uri 'https://packagecloud.io/slacktechnologies/slack/debian/'
+end
+
+# This was the old name of the file distributed in their package.
+file '/etc/apt/sources.list.d/slacktechnologies_slack.list' do
+  action :delete
 end
 
 package 'slack-desktop' do
