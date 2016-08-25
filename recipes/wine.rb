@@ -73,15 +73,23 @@ when 'debian'
   # This is the "special" gecko installer wine searches for.
   #
   # The filename and checksum are hardcoded into wine.  Each wine
-  # version may require a different gecko MSI.  Gecko 2.40 is used by
-  # wine 1.7.50.
+  # version may require a different gecko MSI.  Gecko 2.47 is used by
+  # wine 1.9.17
   #
   # http://wiki.winehq.org/Gecko
   #
-  remote_file '/usr/share/wine/gecko/wine_gecko-2.40-x86.msi' do
-    source 'http://downloads.sourceforge.net/project/wine/Wine%20Gecko/2.40/wine_gecko-2.40-x86.msi'
-    checksum '1a29d17435a52b7663cea6f30a0771f74097962b07031947719bb7b46057d302'
-    mode 0644
+  [
+    ['https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi',
+      '3b8a361f5d63952d21caafd74e849a774994822fb96c5922b01d554f1677643a'],
+    ['https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi',
+      'c565ea25e50ea953937d4ab01299e4306da4a556946327d253ea9b28357e4a7d']
+  ].each do |url, checksum|
+    file_name = "/usr/share/wine/gecko/#{::File.basename(url)}"
+    remote_file file_name do
+      source url
+      checksum checksum
+      mode 0644
+    end
   end
 
   package 'winetricks'
