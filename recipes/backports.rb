@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: backports
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2015-2016 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,9 +21,42 @@ include_recipe 'desktop::apt'
 
 if node['platform'] == 'ubuntu'
   apt_repository 'backports' do
-    uri 'http://archive.ubuntu.com/ubuntu'
+    uri node[:ubuntu][:archive_url]
     distribution "#{node[:lsb][:codename]}-backports"
     components ['main', 'restricted', 'universe', 'multiverse']
+  end
+
+  #
+  # Pin a modern version of git, because trusty inexplicably shipped
+  # with an ancient one
+  #
+  if Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('16.04')
+    apt_preference 'ubuntu-xenial' do
+      glob '*'
+      pin 'release n=xenial'
+      pin_priority '100'
+    end
+
+    apt_preference 'ubuntu-xenial-git' do
+      glob 'git'
+      pin 'release n=xenial'
+      pin_priority '710'
+    end
+
+    apt_repository 'xenial' do
+      uri node[:ubuntu][:archive_url]
+      distribution 'xenial'
+      components ['main']
+    end
+  else
+    # Delete the preferences, if present, on 16.04 and above.
+    apt_preference 'ubuntu-xenial' do
+      action :delete
+    end
+
+    apt_preference 'ubuntu-xenial-git' do
+      action :delete
+    end
   end
 else
   apt_repository 'backports' do
