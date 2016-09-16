@@ -31,7 +31,7 @@ require 'tmpdir'
 citrix_html_path = '/tmp/' + Dir::Tmpname.make_tmpname('citrix', 'html')
 citrix_deb_path = "#{Chef::Config[:file_cache_path]}/icaclient_amd64.deb"
 citrix_checksum =
-  '86e7e169ab10cae868a5909c07647f2efeaa6c21f4fcab6684a3f19e3c461433'
+  'd41e70624960b9dd9c4856bfb051dad4ef1eb4eb6a586a530b09dc74a714b1df'
 
 citrix_deb_is_valid = lambda do
   (File.exists?(citrix_deb_path) &&
@@ -39,7 +39,11 @@ citrix_deb_is_valid = lambda do
 end
 
 remote_file citrix_html_path do
-  source 'https://www.citrix.com/downloads/citrix-receiver/legacy-receiver-for-linux/receiver-for-linux-13-2.html'
+  top_url = 'https://www.citrix.com/downloads/citrix-receiver/'
+  source [
+           'legacy-receiver-for-linux/receiver-for-linux-134.html',
+           'linux/receiver-for-linux-latest.html'
+         ].map { |fragment| top_url + fragment }
   not_if{ citrix_deb_is_valid.call }   
 end
 
