@@ -28,7 +28,7 @@ if node['platform'] == 'debian'
 
   remote_file libgcrypt11_path do
     source 'http://security.debian.org/debian-security/pool/updates/main/libg/libgcrypt11/libgcrypt11_1.5.0-5+deb7u5_amd64.deb'
-    checksum '67cabf2672cb6a95afe05eaa773abcb10dc941c56326a789fa8a90d3d58a48d8'
+    checksum '38017bb262e38dd580272b707376e58b977b0f47e51875056e50c822c4651e47'
     notifies :install, 'dpkg_package[libgcrypt11]', :immediately
   end
   
