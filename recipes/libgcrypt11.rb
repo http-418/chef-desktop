@@ -27,7 +27,7 @@ if node['platform'] == 'debian'
   libgcrypt11_path = Chef::Config[:file_cache_path] + '/libgcrypt11.deb'
 
   remote_file libgcrypt11_path do
-    source 'http://security.debian.org/debian-security/pool/updates/main/libg/libgcrypt11/libgcrypt11_1.5.0-5+deb7u4_amd64.deb'
+    source 'http://security.debian.org/debian-security/pool/updates/main/libg/libgcrypt11/libgcrypt11_1.5.0-5+deb7u5_amd64.deb'
     checksum '67cabf2672cb6a95afe05eaa773abcb10dc941c56326a789fa8a90d3d58a48d8'
     notifies :install, 'dpkg_package[libgcrypt11]', :immediately
   end
