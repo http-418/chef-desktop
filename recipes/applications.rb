@@ -109,10 +109,13 @@ package [
   timeout 3600
 end
 
+# Install fonts before configuring other X11 applications.
+include_recipe 'desktop::fonts'
+
 # Complex applications that may depend upon dev packages
 include_recipe 'desktop::docker'
 include_recipe 'desktop::emacs'
-include_recipe 'desktop::fonts'
+include_recipe 'desktop::firefox'
 include_recipe 'desktop::hub'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
