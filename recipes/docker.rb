@@ -17,17 +17,39 @@
 # limitations under the License.
 #
 
-#
-# Debian jessie had to remove docker for golang compatibility.
-# A version depending on newer golang is available in backports.
-#
-if node['platform'] == 'debian'
-  include_recipe 'desktop::backports'
+include_recipe 'desktop::backports'
+
+package 'apt-transport-https' do
+  action :upgrade
 end
 
-package 'docker.io'
+apt_repository 'docker' do
+  uri 'https://apt.dockerproject.org/repo'
+  distribution "#{node[:lsb][:id]}-#{node[:lsb][:codename]}".downcase
+  components ['main']
+  keyserver 'hkps.pool.sks-keyservers.net'
+  key '58118E89F3A912897C070ADBF76221572C52609D'
+end
+
+apt_package 'docker.io' do
+  action :purge
+end
+
+ruby_block 'purge-aufs-warning' do
+  block do
+    if ::File.directory?('/var/lib/docker/aufs')
+      raise "Please rm -rf /var/lib/docker/aufs before upgrade.\n" \
+            'WARNING: This will delete all of your existing docker containers!'
+    end
+  end
+end
 
 docker_service = 'docker'
+
+apt_package 'docker-engine' do
+  action :upgrade
+  notifies :restart, "service[#{docker_service}]", :immediately
+end
 
 template '/etc/default/docker.io' do
   mode 0444
