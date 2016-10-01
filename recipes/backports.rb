@@ -74,9 +74,32 @@ apt_preference "#{node[:lsb][:codename]}-backports" do
     notifies :run, 'execute[apt-get update]', :immediately
 end
 
+#
 # Debian's jessie-backports repo ships new core components.
+#
+# Unfortunately, the bpo packages break update-initramfs for the base
+# jessie kernel.
+#
 if node[:lsb][:id] == 'Debian'
-  package ['systemd', 'ifupdown'] do
-    action :upgrade
+  if Gem::Version.new(node[:kernel][:release]) < Gem::Version.new('4.0')
+    log 'kernel-warning' do
+      level :warn
+      message 'Cannot upgrade systemd and ifupdown on ' \
+        "kernel #{node[:kernel][:release]}!\n" \
+        'Upgrade to a backports kernel ASAP!'
+    end
+  else
+    # Remove the base Jessie kernel to work around bugs in bpo packages.
+    apt_package [
+                  'linux-image-3.16.0-4-amd64',
+                  'linux-headers-3.16.0-4-amd64',
+                  'linux-headers-3.16.0-4-common'
+                ] do
+      action :purge
+    end
+
+    package ['systemd', 'ifupdown'] do
+      action :upgrade
+    end
   end
 end
