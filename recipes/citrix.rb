@@ -62,7 +62,7 @@ ruby_block 'citrix-get-url' do
       .select{ |rel| rel.include?("icaclient") && rel.include?("amd64") }
       .first
     link = "https:#{final_rel}"
-    node.default['desktop_citrix_onetime_url'] = link
+    node.run_state['desktop_citrix_onetime_url'] = link
   end
   not_if{ citrix_deb_is_valid.call }
 end
@@ -75,15 +75,8 @@ end
 # present in the expected attribute.
 #
 remote_file citrix_deb_path do
-  source lazy { node['desktop_citrix_onetime_url'] }
+  source lazy { node.run_state['desktop_citrix_onetime_url'] }
   checksum citrix_checksum
-end  
-
-ruby_block 'citrix-purge-url' do
-  block do
-    node.delete('desktop_citrix_onetime_url')
-    FileUtils.rm(citrix_html_path) rescue nil
-  end
 end
 
 package_names = [ 
