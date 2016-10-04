@@ -61,8 +61,8 @@ ruby_block 'citrix-get-url' do
       .map{|el| el['rel']}
       .select{ |rel| rel.include?("icaclient") && rel.include?("amd64") }
       .first
-    link = "https:#{final_rel}" 
-    node.set['desktop_citrix_onetime_url'] = link
+    link = "https:#{final_rel}"
+    node.default['desktop_citrix_onetime_url'] = link
   end
   not_if{ citrix_deb_is_valid.call }
 end

@@ -10,3 +10,4 @@ Gemfile.lock
 Berksfile.lock
 Vagrantfile.erb
 Vagrantfile.local.rb
+.idea/
