@@ -29,6 +29,13 @@ remote_file deb_path do
   checksum '9d2455dc29bfa7db5cf3ec535ffd2a8c86c5a71f78d7d89c40dbd744b2c15707'
 end
 
-package 'libqt4-gui'
+package [
+          'libqt4-designer',
+          'libqt4-opengl',
+          'libqt4-svg',
+          'libqtgui4'
+        ] do
+  action :upgrade
+end
 
 dpkg_package deb_path
