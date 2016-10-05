@@ -51,11 +51,11 @@ if node['platform'] == 'ubuntu'
   else
     # Delete the preferences, if present, on 16.04 and above.
     apt_preference 'ubuntu-xenial' do
-      action :delete
+      action :remove
     end
 
     apt_preference 'ubuntu-xenial-git' do
-      action :delete
+      action :remove
     end
   end
 else

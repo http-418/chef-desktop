@@ -74,13 +74,24 @@ end
 # always need to be downloaded, but the one-time URL will never be
 # present in the expected attribute.
 #
-remote_file citrix_deb_path do
-  source lazy { node.run_state['desktop_citrix_onetime_url'] }
-  checksum citrix_checksum
+ruby_block 'citrix-download' do
+  block do
+    Chef::Resource::RemoteFile.new(citrix_deb_path,
+                                   run_context).tap do |rr|
+      rr.source node.run_state['desktop_citrix_onetime_url']
+      rr.checksum citrix_checksum
+      rr.run_action :create
+    end
+  end
+
+  not_if{ citrix_deb_is_valid.call }
 end
+# libc6 (>= 2.13-38), libice6 (>= 1:1.0.0), libgtk2.0-0 (>= 2.12.0), libsm6, libx11-6, libxext6, libxmu6, libxpm4, libasound2, libstdc++6, libwebkit-1.0-2 | libwebkitgtk-1.0-0, libidn11, zlib1g
 
 package_names = [ 
  'debconf-utils',
+ 'libasound2',
+ 'libasound2:i386',
  'libatk1.0-0',
  'libatk1.0-0:i386',
  'libcairo2',
@@ -89,16 +100,18 @@ package_names = [
  'libcanberra-gtk-module:i386',
  'libgtk2.0-0',
  'libgtk2.0-0:i386',
+ 'libsm6',
+ 'libsm6:i386',
  'libspeex1',
  'libspeex1:i386',
  'libxmu6',
  'libxmu6:i386',
  'libxpm4',
  'libxpm4:i386',
- 'libxp6',
- 'libxp6:i386',
  'libwebkitgtk-1.0-0',
 ]
+
+
 
 # amd64, all in one batch
 package package_names.reject{ |p| p.include?(":i386") } do
