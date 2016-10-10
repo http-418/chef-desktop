@@ -43,6 +43,12 @@ if node['platform'] == 'ubuntu'
       pin_priority '710'
     end
 
+    apt_preference 'ubuntu-xenial-git' do
+      glob 'git-man'
+      pin 'release n=xenial'
+      pin_priority '710'
+    end
+
     apt_repository 'xenial' do
       uri node[:ubuntu][:archive_url]
       distribution 'xenial'
