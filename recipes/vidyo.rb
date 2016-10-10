@@ -40,6 +40,14 @@ ubuntu_before_xenial =
   node[:platform] == 'ubuntu' &&
   Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('16.04')
 
+package [
+          'libxv1',
+          'libxrandr2',
+          'libglu1'
+        ] do
+  action :upgrade
+end
+
 if (debian_before_stretch || ubuntu_before_xenial)
   package 'libqt4-gui' do
     action :upgrade
@@ -50,6 +58,7 @@ else
             'libqt4-opengl',
             'libqt4-svg',
             'libqtgui4',
+            'libqtwebkit4',
             'equivs'
           ] do
     action :upgrade
