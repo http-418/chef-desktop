@@ -21,7 +21,8 @@ include_recipe 'apt'
 
 apt_repository 'heroku' do
   uri 'http://toolbelt.heroku.com/ubuntu'
-  components ['/']
+  components ['./']
+  distribution ''
   key 'https://toolbelt.heroku.com/apt/release.key'
 end
 
