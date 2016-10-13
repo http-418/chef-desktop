@@ -17,11 +17,9 @@
 # limitations under the License.
 #
 
-node.default[:rbenv][:root_path] = '/opt/rbenv'
-node.default[:rbenv][:rubies] = [ '1.9.3-p484', '2.1.7', '2.3.0' ]
-
 # Install bundler gem in every ruby.
 # (Vagrant requires bundler <= 1.10.6)
+# see attributes/ruby.rb!
 node.default[:rbenv][:gems] = node[:rbenv][:rubies]
   .map { |v| { v => [
                       { 'name' => 'bundler', 'version' => '1.10.6' },
