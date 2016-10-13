@@ -22,7 +22,8 @@ include_recipe 'desktop::libgcrypt11'
 
 apt_repository 'spotify' do
   uri 'http://repository.spotify.com'
-  components ['stable', 'non-free']
+  components ['non-free']
+  distribution 'stable'
   keyserver 'keyserver.ubuntu.com'
   key 'D2C19886'
 end
