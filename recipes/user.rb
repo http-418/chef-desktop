@@ -32,13 +32,16 @@ node['desktop']['user'].tap do |user|
     gid user['group']
     home user['home']
     shell '/bin/bash'
-    manage_home true
+    manage_home user['home']['manage?']
   end
 
-  directory user['home'] + '/bin' do
-    owner user['name']
-    group user['group']
-    mode 0700
+  user['home']['directories'].each do |dir|
+    directory user['home'] + "/#{dir}" do
+      owner user['name']
+      group user['group']
+      mode 0700
+      recursive true
+    end
   end
 
   file "/etc/sudoers.d/#{user['name']}" do
