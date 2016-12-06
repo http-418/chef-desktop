@@ -22,7 +22,7 @@
 # see attributes/ruby.rb!
 node.default[:rbenv][:gems] = node[:rbenv][:rubies]
   .map { |v| { v => [
-                      { 'name' => 'bundler', 'version' => '1.10.6' },
+                      { 'name' => 'bundler', 'version' => '1.13.6' },
                       { 'name' => 'multipart-post'}
                     ] } }
   .reduce({}, :merge)
