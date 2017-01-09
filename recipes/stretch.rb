@@ -26,7 +26,7 @@ if node[:lsb][:id] == 'Debian' &&
     Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('9.0')
   
   apt_repository 'stretch' do
-    uri 'http://mirror.cc.columbia.edu/debian'
+    uri node[:debian][:mirror]
     distribution 'stretch'
     components ['main', 'contrib', 'non-free']
   end
@@ -47,4 +47,4 @@ else
 
   log "Not adding debian 'stretch' repos to " \
     "#{node[:lsb][:id]} #{node[:lsb][:release]}"
-end 
+end
