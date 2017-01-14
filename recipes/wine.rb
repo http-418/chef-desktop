@@ -102,3 +102,19 @@ when 'debian'
     EOM
   end
 end
+
+# # Upgrading gst plugins explodes because openCV doesn't support
+# # multiarch -- installing amd64 breaks i386 and vice versa.  so a
+# # side by side installation of plugins-bad is impossible :(
+#
+# # Install all gstreamer plugins for i386 and amd64.
+# # Apt doesn't know about these hidden deps, since they're dlopen()ed.
+# #
+# gst_packages = %w(base good bad ugly).map do |plugin_class|
+#   ["gstreamer1.0-plugins-#{plugin_class}:amd64",
+#    "gstreamer1.0-plugins-#{plugin_class}:i386"]
+# end.flatten
+
+# package gst_packages do
+#   action :upgrade
+# end
