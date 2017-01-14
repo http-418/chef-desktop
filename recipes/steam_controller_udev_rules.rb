@@ -22,11 +22,9 @@
 # for Steam virtual gamepad support.
 #
 
-file '/etc/udev/rules.d/99-steam-controller-uinput.rules' do
+template '/etc/udev/rules.d/99-steam-controller-uinput.rules' do
+  source 'steam/steam-controller-perms.rules.erb'
   mode 0444
-  content <<-EOM.gsub(/^ {4}/,'')
-    KERNEL=="uinput", GROUP="#{node[:desktop][:user][:group]}", MODE:="0660"
-  EOM
   notifies :run, 'execute[udev-reload-uinput-driver]', :immediately
 end
 
