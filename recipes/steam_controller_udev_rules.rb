@@ -24,6 +24,7 @@
 
 template '/etc/udev/rules.d/99-steam-controller-uinput.rules' do
   source 'steam/steam-controller-perms.rules.erb'
+  variables({group: node[:desktop][:user][:group]})
   mode 0444
   notifies :run, 'execute[udev-reload-uinput-driver]', :immediately
 end
