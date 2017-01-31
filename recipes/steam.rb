@@ -81,7 +81,7 @@ file steam_selections_path do
     # STEAM PURGE NOTE
     steam   steam/purge     note
     # Do you agree to all terms of the Steam License Agreement?
-    steam   steam/question  select  I AGREE
+    steam   steam/question  select I AGREE
   EOM
 end
 
