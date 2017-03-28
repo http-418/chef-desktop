@@ -21,25 +21,36 @@
 # This recipe installs Steam and its fonts.  It used to fail due to an
 # EULA, but that should not happen anymore.
 #
-include_recipe 'apt'
+include_recipe 'desktop::apt'
 include_recipe 'desktop::user'
 include_recipe 'desktop::steam_fonts'
 include_recipe 'desktop::steam_controller_udev_rules'
 
-apt_repository 'steam' do
-  uri 'http://repo.steampowered.com/steam/'
-  components ['precise', 'steam']
-  keyserver 'keyserver.ubuntu.com'
-  key 'F24AEA9FB05498B7'
-end
-
 if node[:platform] == 'ubuntu'
-  # It has to be glob * because steam is an i386 package, and
-  # apt_preferences doesn't understand multiarch package names.
-  apt_preference 'steam' do
-    glob '*'
-    pin 'origin repo.steampowered.com'
-    pin_priority '600'
+  apt_repository 'steam' do
+    uri 'http://repo.steampowered.com/steam/'
+    components ['precise', 'steam']
+    keyserver 'keyserver.ubuntu.com'
+    key 'F24AEA9FB05498B7'
+  end
+
+  file '/etc/apt/preferences.d/steam.pref' do
+    content <<-EOM.gsub(/^ */,'')
+      Package: steam:i386
+      Pin: origin repo.steampowered.com
+      Pin-Priority: 900
+    EOM
+    notifies :run, 'execute[apt-get update]', :immediately
+  end
+else
+  include_recipe 'desktop::stretch'
+
+  file '/etc/apt/preferences.d/steam.pref' do
+    content <<-EOM.gsub(/^ */,'')
+      Package: steam:i386
+      Pin: release n=stretch
+      Pin-Priority: 900
+    EOM
     notifies :run, 'execute[apt-get update]', :immediately
   end
 end
@@ -70,7 +81,7 @@ file steam_selections_path do
     # STEAM PURGE NOTE
     steam   steam/purge     note
     # Do you agree to all terms of the Steam License Agreement?
-    steam   steam/question  select  I AGREE
+    steam   steam/question  select I AGREE
   EOM
 end
 

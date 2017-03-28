@@ -1,8 +1,7 @@
 #
-# Cookbook Name:: desktop
-# Recipe:: spotify
+# recipes/cron.rb
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2017 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,15 +16,16 @@
 # limitations under the License.
 #
 
-include_recipe 'apt'
-include_recipe 'desktop::libgcrypt11'
+#
+# Installs cron for a desktop system.
+#
 
-apt_repository 'spotify' do
-  uri 'http://repository.spotify.com'
-  components ['non-free']
-  distribution 'stable'
-  keyserver 'keyserver.ubuntu.com'
-  key 'D2C19886'
+include_recipe 'desktop::apt'
+
+package 'cron' do
+  action :upgrade
 end
 
-package 'spotify-client'
+service 'cron' do
+  action [:enable, :start]
+end
