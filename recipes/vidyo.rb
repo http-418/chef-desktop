@@ -111,7 +111,7 @@ vidyo_deb_name = 'VidyoDesktopInstaller-ubuntu64-TAG_VD_3_6_3_017.deb'
 vidyo_deb_path = "#{Chef::Config[:file_cache_path]}/#{vidyo_deb_name}"
 
 remote_file vidyo_deb_path do
-  source "https://demo.vidyo.com/upload/#{vidyo_deb_name}"
+  source "https://client-downloads.vidyocloud.com/#{vidyo_deb_name}"
   checksum '9d2455dc29bfa7db5cf3ec535ffd2a8c86c5a71f78d7d89c40dbd744b2c15707'
 end
 
