@@ -18,7 +18,9 @@
 #
 
 if node[:platform] == 'debian'
-  node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
+  unless node[:debian][:mirror].present?
+    node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
+  end
   node.default['debian']['deb_src'] = true
   platform_recipe = 'debian'
 elsif node[:platform] == 'ubuntu'
