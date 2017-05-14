@@ -44,7 +44,7 @@ remote_file citrix_html_path do
            'legacy-receiver-for-linux/receiver-for-linux-134.html',
            'linux/receiver-for-linux-latest.html'
          ].map { |fragment| top_url + fragment }
-  not_if{ citrix_deb_is_valid.call }   
+  not_if{ citrix_deb_is_valid.call }
 end
 
 #
@@ -56,7 +56,7 @@ ruby_block 'citrix-get-url' do
   block do
     require 'nokogiri'
     page = Nokogiri::HTML(open(citrix_html_path))
-    final_rel = 
+    final_rel =
       page.css(".ctx-dl-link")
       .map{|el| el['rel']}
       .select{ |rel| rel.include?("icaclient") && rel.include?("amd64") }
@@ -88,7 +88,7 @@ ruby_block 'citrix-download' do
 end
 # libc6 (>= 2.13-38), libice6 (>= 1:1.0.0), libgtk2.0-0 (>= 2.12.0), libsm6, libx11-6, libxext6, libxmu6, libxpm4, libasound2, libstdc++6, libwebkit-1.0-2 | libwebkitgtk-1.0-0, libidn11, zlib1g
 
-package_names = [ 
+package_names = [
  'debconf-utils',
  'libasound2',
  'libasound2:i386',
@@ -135,7 +135,7 @@ dpkg_package citrix_deb_path do
 end
 
 Dir.glob('/usr/share/ca-certificates/mozilla/*').each do |source_path|
-  target_path = 
+  target_path =
     '/opt/Citrix/ICAClient/keystore/cacerts/' + File.basename(source_path)
   link target_path do
     to source_path
@@ -165,7 +165,13 @@ begin
 
   log 'Skipping default Citrix wfclient.ini, TWIUse_NET_ACTIVE already set' do
     only_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
-  end  
+  end
+
+  file citrix_ini_path do
+    user node['desktop']['user']['name']
+    group node['desktop']['user']['group']
+    mode 0664
+  end
 rescue
   log 'Skipping default Citrix wfclient.ini, unable to load desktop user'
 end
