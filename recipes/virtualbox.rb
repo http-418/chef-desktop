@@ -18,6 +18,7 @@
 #
 
 include_recipe 'apt'
+include_recipe 'user'
 
 apt_repository 'virtualbox' do
   uri 'http://download.virtualbox.org/virtualbox/debian'

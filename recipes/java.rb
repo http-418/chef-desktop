@@ -21,8 +21,22 @@ node.default[:java][:install_flavor] = 'oracle'
 node.default[:java][:jdk_version] = '8'
 node.default[:java][:oracle][:accept_oracle_download_terms] = true
 
+#
 # Install a packaged java to satisfy Debian deps.
-package 'openjdk-8-jdk'
+#
+# Apt will not detect the existence of oracle java, so debian packages
+# that depend on java will attempt to pull in a java, and that is
+# often gcj.
+#
+if debian_before(9.0) || ubuntu_before(16.10)
+  include_recipe 'desktop::backports'
+else
+  include_recipe 'desktop::apt'
+end
+
+package 'openjdk-8-jdk' do
+  action :upgrade
+end
 
 include_recipe 'java'
 
