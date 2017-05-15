@@ -34,6 +34,10 @@ end
 #
 # http://plugable.com/2014/06/23/plugable-usb-bluetooth-adapter-solving-hfphsp-profile-issues-on-linux
 #
+# There is a newer "A1" firmware that exists.  Modern kernels raise an
+# error about the missing "A1" file. But making the version from the
+# bcm firmware project available breaks my existing BT dongles.
+#
 remote_file '/lib/firmware/brcm/BCM20702A0-0a5c-21e8.hcd' do
   mode 0444
   source 'https://s3.amazonaws.com/plugable/bin/fw-0a5c_21e8.hcd'
@@ -52,8 +56,13 @@ end
   'bluez',
   'bluez-tools',
   'obex-data-server',
+  'pulseaudio',
+  'pulseaudio-module-bluetooth',
+  'sudo'
 ].compact.each do |package_name|
-  package package_name
+  package package_name do
+    action :upgrade
+  end
 end
 
 if node['platform']  == 'debian'
@@ -63,7 +72,48 @@ if node['platform']  == 'debian'
            'firmware-linux',
            'firmware-linux-nonfree',
           ] do
-    action :install
+    action :upgrade
   end
 end
 
+#
+# sys-proctable's unusual platform scheme confuses the gem_package and
+# chef_gem providers, so we are stuck with an execute resource.
+#
+gem_path = Pathname.new(Gem.ruby).dirname.join('gem').to_s
+gem_name = 'sys-proctable'
+gem_version = '>= 1.1.4'
+
+execute "chef_gem_install_#{gem_name}" do
+  command "#{gem_path} install #{gem_name} " \
+    '--no-user-install ' \
+    '-q --no-rdoc --no-ri --platform universal-linux ' \
+    "-v '#{gem_version}'"
+  umask 0022
+  live_stream true if respond_to?(:live_stream)
+end
+
+ruby_block 'load-pa-bt-module' do
+  block do
+    Gem.clear_paths
+
+    require 'etc'
+    require 'sys/proctable'
+
+    pulseaudio_users = Sys::ProcTable.ps.select do |pp|
+      pp.cmdline.start_with?('/usr/bin/pulseaudio')
+    end.map do |pp|
+      Etc.getpwuid(pp.uid).name rescue nil
+    end.compact
+
+    pulseaudio_users.each do |user_name|
+      Chef::Resource::Execute.new("#{user_name}-pactl-bt-load",
+                                  node.run_context).tap do |ee|
+        ee.command 'pactl load-module module-bluetooth-discover'
+        ee.user user_name
+        ee.not_if "sudo -H -u #{user_name} pactl list | " \
+          'grep module-bluetooth-discover'
+      end.run_action(:run)
+    end
+  end
+end
