@@ -31,7 +31,7 @@ if node['platform'] == 'debian'
     checksum '4b44bc35225aa51ce70a982c49bf320cb0861556e04a867e4a9231fb8dd31820'
     notifies :install, 'dpkg_package[libgcrypt11]', :immediately
   end
-  
+
   dpkg_package 'libgcrypt11' do
     package_name libgcrypt11_path
     action :nothing
@@ -42,7 +42,11 @@ if node['platform'] == 'debian'
     notifies :install, 'dpkg_package[libgcrypt11]', :immediately
   end
 elsif node['platform'] == 'ubuntu'
-  # This will blow up on Ubuntu releases newer than 14.04.
-  # I guess that's 2016's problem.
-  package 'libgcrypt11'
+  version = Gem::Version.new(node[:platform_version])
+
+  if version > Gem::Version.new('14.04')
+    package 'libgcrypt20'
+  else
+    package 'libgcrypt11'
+  end
 end

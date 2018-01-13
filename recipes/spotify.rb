@@ -20,12 +20,14 @@
 include_recipe 'apt'
 include_recipe 'desktop::libgcrypt11'
 
+package 'dirmngr'
+
 apt_repository 'spotify' do
   uri 'http://repository.spotify.com'
   components ['non-free']
   distribution 'stable'
   keyserver 'keyserver.ubuntu.com'
-  key 'D2C19886'
+  key '0DF731E45CE24F27EEEB1450EFDC8610341D9410'
 end
 
 package 'spotify-client'
