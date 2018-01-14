@@ -19,6 +19,8 @@
 
 include_recipe 'desktop::backports'
 
+package 'dirmngr'
+
 package 'apt-transport-https' do
   action :upgrade
 end

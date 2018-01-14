@@ -27,7 +27,7 @@ directory '/etc/X11/xorg.conf.d/' do
 end
 
 # Don't configure nvidia drivers on non-nvidia systems.
-if system('lspci | grep VGA | grep -i nvidia') 
+if system('lspci | grep VGA | grep -i nvidia')
   include_recipe 'desktop::nvidia'
   package 'xserver-xorg'
 else
