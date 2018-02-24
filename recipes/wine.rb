@@ -48,10 +48,10 @@ when 'debian'
   end
 
   apt_repository 'wine_staging' do
-    uri 'https://repos.wine-staging.com/debian/'
+    uri 'https://dl.winehq.org/wine-builds/debian/'
     distribution node[:lsb][:codename]
     components ['main']
-    key 'https://repos.wine-staging.com/Release.key'
+    key 'https://repos.wine-staging.com/wine/Release.key'
   end
 
   apt_preference 'wine_staging' do
@@ -78,13 +78,19 @@ when 'debian'
   #
   # http://wiki.winehq.org/Gecko
   #
+  gecko_dir = "/usr/share/wine/gecko/"
+  directory gecko_dir do
+    recursive true
+    mode 0644
+  end
+
   [
     ['https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi',
       '3b8a361f5d63952d21caafd74e849a774994822fb96c5922b01d554f1677643a'],
     ['https://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi',
       'c565ea25e50ea953937d4ab01299e4306da4a556946327d253ea9b28357e4a7d']
   ].each do |url, checksum|
-    file_name = "/usr/share/wine/gecko/#{::File.basename(url)}"
+    file_name = "#{gecko_dir}#{::File.basename(url)}"
     remote_file file_name do
       source url
       checksum checksum
