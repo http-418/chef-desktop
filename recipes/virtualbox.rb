@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe 'apt'
-include_recipe 'user'
+include_recipe 'desktop::apt'
+include_recipe 'desktop::user'
 
 apt_repository 'virtualbox' do
   uri 'http://download.virtualbox.org/virtualbox/debian'
@@ -32,13 +32,13 @@ package 'virtualbox-4.3' do
   action :remove
   only_if 'dpkg --get-selections | grep virtualbox-4.3'
 end
-   
-package [ 
+
+package [
          'build-essential',
          'dkms',
-         'virtualbox-5.0' 
+         'virtualbox-5.2'
         ] do
-  action :install
+  action :upgrade
   timeout 3600
 end
 
