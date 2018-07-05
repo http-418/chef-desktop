@@ -35,6 +35,10 @@ apt_package 'docker.io' do
   action :purge
 end
 
+file '/etc/default/docker.io' do
+  action :delete
+end
+
 ruby_block 'purge-aufs-warning' do
   block do
     if ::File.directory?('/var/lib/docker/aufs')
@@ -48,13 +52,19 @@ docker_service = 'docker'
 
 apt_package 'docker-engine' do
   action :upgrade
-  notifies :restart, "service[#{docker_service}]", :immediately
+  notifies :restart, "service[#{docker_service}]"
 end
 
-template '/etc/default/docker.io' do
+template '/etc/default/docker' do
   mode 0444
-  source 'docker/docker.io-defaults.erb'
-  notifies :restart, "service[#{docker_service}]", :immediately
+  source 'docker/docker-defaults.erb'
+  notifies :restart, "service[#{docker_service}]"
+end
+
+template '/etc/docker/daemon.json' do
+  mode 0444
+  source 'docker/daemon.json.erb'
+  notifies :restart, "service[#{docker_service}]"
 end
 
 service docker_service do

@@ -1,6 +1,6 @@
 # -*- mode: shell-script -*-
 #
-# /etc/default/docker.io
+# /etc/default/docker
 #
 # This file is maintained by Chef.
 # Local changes will be reverted.
@@ -11,3 +11,5 @@ export http_proxy=<%= Chef::Config[:http_proxy] %>
 <% if Chef::Config[:https_proxy] %>
 export https_proxy=<%= Chef::Config[:https_proxy] %>
 <% end %>
+
+DOCKER_OPTS="--config-file=/etc/docker/daemon.json"
