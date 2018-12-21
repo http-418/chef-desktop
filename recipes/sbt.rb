@@ -32,4 +32,6 @@ apt_repository 'sbt' do
   notifies :run, 'execute[apt-get update]', :immediately
 end
 
-package 'sbt'
+package 'sbt' do
+  action :upgrade
+end

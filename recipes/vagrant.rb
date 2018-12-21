@@ -23,15 +23,15 @@
 include_recipe 'desktop::virtualbox'
 
 vagrant_url =
-  'https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb'
+  'https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb'
 
-vagrant_path = 
-  "#{Chef::Config[:file_cache_path]}/vagrant_1.8.1_x86_64.deb"
+vagrant_path =
+  "#{Chef::Config[:file_cache_path]}/vagrant_2.1.2_x86_64.deb"
 
 remote_file vagrant_path do
   source vagrant_url
   mode 0444
-  checksum 'ed0e1ae0f35aecd47e0b3dfb486a230984a08ceda3b371486add4d42714a693d'
+  checksum 'f614a60b258a856322f23d33a24201d26ab2555d047814fec403e834eb7d62b4'
 end
 
 dpkg_package 'vagrant' do
@@ -39,9 +39,10 @@ dpkg_package 'vagrant' do
   source vagrant_path
 end
 
+#
 # Vagrant ships its own SSL CAs.
 # We force it to use system-wide SSL instead.
-
+#
 vagrant_ca_path = '/opt/vagrant/embedded/cacert.pem'
 
 file vagrant_ca_path do

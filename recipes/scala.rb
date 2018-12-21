@@ -20,12 +20,13 @@
 #
 # Typesafe (now known as Lightbend) used to provide a signed apt
 # repository with a complete scala stack in it.  They no longer
-# provide that repository, only individual package downloads. 
+# provide that repository, only individual package downloads.
 #
 # Unfortunately, that means hardcoding a version and a checksum.
 #
 include_recipe 'apt'
 include_recipe 'desktop::java'
+include_recipe 'desktop::sbt'
 
 deb_path = ::File.join(Chef::Config.file_cache_path, 'scala-2.11.deb')
 
@@ -35,4 +36,3 @@ remote_file deb_path do
 end
 
 dpkg_package deb_path
-                          

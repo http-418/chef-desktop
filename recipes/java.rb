@@ -23,6 +23,7 @@ node.default[:java][:oracle][:accept_oracle_download_terms] = true
 
 #
 # Install a packaged java to satisfy Debian deps.
+<<<<<<< Updated upstream
 #
 # Apt will not detect the existence of oracle java, so debian packages
 # that depend on java will attempt to pull in a java, and that is
@@ -34,8 +35,12 @@ else
   include_recipe 'desktop::apt'
 end
 
-package 'openjdk-8-jdk' do
-  action :upgrade
+if node[:platform] == 'debian'
+  package 'openjdk-8-jdk' do
+    action :upgrade
+  end
+elsif node[:plaftorm] == 'ubuntu'
+  # Do nothing.
 end
 
 include_recipe 'java'
