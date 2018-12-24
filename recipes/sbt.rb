@@ -20,8 +20,6 @@
 include_recipe 'apt'
 include_recipe 'desktop::java'
 
-package 'apt-transport-https'
-
 apt_repository 'sbt' do
   uri 'https://dl.bintray.com/sbt/debian'
   components ['/']

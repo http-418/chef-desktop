@@ -23,7 +23,6 @@ node.default[:java][:oracle][:accept_oracle_download_terms] = true
 
 #
 # Install a packaged java to satisfy Debian deps.
-<<<<<<< Updated upstream
 #
 # Apt will not detect the existence of oracle java, so debian packages
 # that depend on java will attempt to pull in a java, and that is
@@ -43,9 +42,9 @@ elsif node[:plaftorm] == 'ubuntu'
   # Do nothing.
 end
 
-include_recipe 'java'
-
-java_alternatives 'oracle-java-alternatives' do
-  java_location '/usr/lib/jvm/java-8-oracle-amd64'
-  action :set
-end
+#include_recipe 'java'
+#
+#java_alternatives 'oracle-java-alternatives' do
+#  java_location '/usr/lib/jvm/java-8-oracle-amd64'
+#  action :set
+#end

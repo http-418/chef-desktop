@@ -67,4 +67,12 @@ if node[:platform] == 'ubuntu'
   end
 end
 
+package [
+  'apt-transport-https',
+  'gnupg',
+  'dirmngr',
+] do
+  action :upgrade
+end  
+
 include_recipe platform_recipe
