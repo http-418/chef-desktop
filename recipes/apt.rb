@@ -54,4 +54,25 @@ apt_preference 'default-distribution' do
   pin_priority '700'
 end
 
+if node[:platform] == 'ubuntu'
+  package 'appstream' do
+    action :remove
+  end
+
+  file '/etc/apt/apt.conf.d/50appstream' do
+    content '# Appstream was disabled by Chef.'
+    mode 0444
+    user 'root'
+    group 'root'
+  end
+end
+
+package [
+  'apt-transport-https',
+  'gnupg',
+  'dirmngr',
+] do
+  action :upgrade
+end  
+
 include_recipe platform_recipe

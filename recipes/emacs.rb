@@ -23,6 +23,7 @@
 # important to be no more than a year or two behind.
 #
 include_recipe 'desktop::apt'
+include_recipe 'desktop::fonts'
 include_recipe 'desktop::user'
 
 package [
@@ -78,7 +79,7 @@ git emacs_src_path do
   repository 'http://git.savannah.gnu.org/r/emacs.git'
   user node['desktop']['user']['name']
   group node['desktop']['user']['group']
-  revision 'emacs-24.5'
+  revision 'emacs-26.1'
   action :sync
   notifies :run, 'execute[emacs-configure]', :immediately
 end
@@ -107,7 +108,7 @@ execute 'emacs-install' do
 end
 
 ruby_block 'emacs-bin-symlinks' do
-  block do 
+  block do
     Dir.new("#{emacs_bin_path}/bin").reject{|e| e[0] == '.'}.each do |bin|
       link = Chef::Resource::Link.new("/usr/local/bin/#{bin}", run_context)
       target = "#{emacs_bin_path}/bin/#{bin}"

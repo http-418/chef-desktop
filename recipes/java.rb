@@ -34,13 +34,17 @@ else
   include_recipe 'desktop::apt'
 end
 
-package 'openjdk-8-jdk' do
-  action :upgrade
+if node[:platform] == 'debian'
+  package 'openjdk-8-jdk' do
+    action :upgrade
+  end
+elsif node[:plaftorm] == 'ubuntu'
+  # Do nothing.
 end
 
-include_recipe 'java'
-
-java_alternatives 'oracle-java-alternatives' do
-  java_location '/usr/lib/jvm/java-8-oracle-amd64'
-  action :set
-end
+#include_recipe 'java'
+#
+#java_alternatives 'oracle-java-alternatives' do
+#  java_location '/usr/lib/jvm/java-8-oracle-amd64'
+#  action :set
+#end
