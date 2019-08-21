@@ -79,7 +79,7 @@ git emacs_src_path do
   repository 'http://git.savannah.gnu.org/r/emacs.git'
   user node['desktop']['user']['name']
   group node['desktop']['user']['group']
-  revision 'emacs-26.1'
+  revision 'emacs-26.2'
   action :sync
   notifies :run, 'execute[emacs-configure]', :immediately
 end
