@@ -160,12 +160,12 @@ begin
     group node['desktop']['user']['group']
     mode 0660
     source 'citrix/wfclient.ini.erb'
-    not_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
+    #not_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
   end
 
-  log 'Skipping default Citrix wfclient.ini, TWIUse_NET_ACTIVE already set' do
-    only_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
-  end
+  #log 'Skipping default Citrix wfclient.ini, TWIUse_NET_ACTIVE already set' do
+  #  only_if "grep TWIUse_NET_ACTIVE=Off #{citrix_ini_path}"
+  #end
 
   file citrix_ini_path do
     user node['desktop']['user']['name']
