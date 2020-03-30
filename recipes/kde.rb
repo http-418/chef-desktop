@@ -64,7 +64,7 @@ else
 end
 
 apps_directory = '/usr/share/kde4/apps/'
-config_directory = '/etc/kde4'
+econfig_directory = '/etc/kde4'
 
 directory apps_directory do
   mode 0555
@@ -94,4 +94,8 @@ end
 template "#{apps_directory}/konsole/Desktop-Cookbook-Shell.profile" do
   mode 0444
   source 'kde/Desktop-Cookbook-Shell.profile.erb'
+end
+
+package ['konsole', 'plasma-nm' ] do
+  action :upgrade
 end
