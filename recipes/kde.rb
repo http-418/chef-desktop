@@ -54,17 +54,8 @@ execute "#{node[:desktop][:display_manager]}-reconfigure" do
   only_if "dpkg --get-selections | grep ^#{node[:desktop][:display_manager]} | grep -v deinstall"
 end
 
-# Ubuntu 16.04+ are missing plasma-widget-adjustableclock
-if node[:platform] == 'ubuntu' &&
-    Gem::Version.new(node[:platform_version]) >= Gem::Version.new('16.04')
-  log 'plasma-widget-adjustableclock is missing from 16.04 and above!'
-  log 'TODO: build adjustableclock from source.'
-else
-  package 'plasma-widget-adjustableclock'
-end
-
 apps_directory = '/usr/share/kde4/apps/'
-econfig_directory = '/etc/kde4'
+config_directory = '/etc/kde4'
 
 directory apps_directory do
   mode 0555
