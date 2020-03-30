@@ -37,12 +37,13 @@ package [
   'mdadm',
   'nmon',
   'ntpdate',
+  'p7zip-full',
   'pv',
   'smartmontools',
   'sudo',
+  'unison',
   'unzip',
   'zip',
-  'p7zip-full'
 ].compact do
   action :upgrade
   timeout 3600
@@ -109,20 +110,26 @@ package [
   timeout 3600
 end
 
+directory '/opt' do
+  mode 0555
+  user 'root'
+  group 'root'
+  action :create
+end
+
 # Install fonts before configuring other X11 applications.
 include_recipe 'desktop::fonts'
 
 # Complex applications that may depend upon dev packages
-include_recipe 'desktop::docker'
 include_recipe 'desktop::emacs'
-include_recipe 'desktop::firefox'
 include_recipe 'desktop::hub'
 include_recipe 'desktop::kde'
 include_recipe 'desktop::google-chrome'
+include_recipe 'desktop::signal'
 include_recipe 'desktop::vagrant'
 include_recipe 'desktop::virtualbox'
-include_recipe 'desktop::youtube-dl'
 include_recipe 'desktop::wireshark'
+include_recipe 'desktop::youtube-dl'
 
 # misc desktop applications
 package [
