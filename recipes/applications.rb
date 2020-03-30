@@ -135,19 +135,14 @@ include_recipe 'desktop::youtube-dl'
 package [
   'clusterssh',
   'cups',
-  node['platform'] == 'debian' ? 'icedove' : nil,
   'gimp',
   'gip',
   'gstreamer1.0-plugins-bad',
   'gstreamer1.0-plugins-ugly',
   'handbrake',
   'keepassx',
-  'libreoffice',
-  'libreoffice-kde',
-  'libreoffice-pdfimport',
   'mesa-utils', # glxgears
   'mpv', # mplayer fork
-  'mrxvt',
   'mwm',
   'mumble',
   'okular',
