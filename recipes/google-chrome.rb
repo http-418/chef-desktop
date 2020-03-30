@@ -42,3 +42,14 @@ file '/etc/apt/sources.list.d/google-chrome-beta.list' do
   action :delete
   notifies :run, 'execute[apt-get update]', :immediately
 end
+
+# Enable unprivileged ns cloning so we can remove chrome suid bits
+sysctl 'kernel.unprivileged_userns_clone' do
+  value 1
+end
+
+# Remove suid bits
+execute 'chmod -s /opt/google/*/chrome-sandbox' do
+  user 'root'
+  action :run
+end

@@ -28,3 +28,14 @@ end
 package 'signal-desktop-beta' do
   action :upgrade
 end
+
+# Enable unprivileged ns cloning so we can remove signal suid bits
+sysctl 'kernel.unprivileged_userns_clone' do
+  value 1
+end
+
+# Remove suid bits
+execute 'chmod -s /opt/Signal*/chrome-sandbox' do
+  user 'root'
+  action :run
+end
