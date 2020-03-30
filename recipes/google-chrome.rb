@@ -25,13 +25,11 @@ apt_repository 'google-chrome-unstable' do
   distribution ''
   components ['stable', 'main']
   keyserver 'keyserver.ubuntu.com'
-  key 'A040830F7FAC5991'
+  key '78BD65473CB3BD13'
 end
 
-if Gem::Version.new(node[:platform_version]) >= Gem::Version.new('16.04')
-  log 'Forcing apt update to work around apt cookbook bugs on 16.04' do
-    notifies :run, 'execute[apt-get update]', :immediately
-  end
+log 'Forcing apt update to work around apt cookbook bugs on buster/xenial' do
+  notifies :run, 'execute[apt-get update]', :immediately
 end
 
 package [ 'google-chrome-unstable', 'google-chrome-beta' ] do
