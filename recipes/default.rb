@@ -23,10 +23,12 @@ include_recipe 'desktop::apt'
 # Hardware.
 include_recipe 'desktop::bluetooth'
 include_recipe 'desktop::irqbalance'
+include_recipe 'desktop::console'
 include_recipe 'desktop::pc-speaker'
 include_recipe 'desktop::pulseaudio'
 include_recipe 'desktop::synaptics'
 include_recipe 'desktop::graphics'
+
 
 # Software.
 include_recipe 'desktop::applications'
