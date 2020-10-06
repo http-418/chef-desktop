@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: desktop
-# Recipe:: signal
+# Recipe:: console
 #
 # Copyright 2020 Andrew Jones
 #
@@ -17,25 +17,33 @@
 # limitations under the License.
 #
 
-apt_repository 'updates.signal.org' do
-  uri 'https://updates.signal.org/desktop/apt'
-  arch 'amd64'
-  key 'https://updates.signal.org/desktop/apt/keys.asc'
-  distribution 'xenial'
-  components ['main']
-end
-
-package 'signal-desktop-beta' do
+package ['debconf-utils','console-setup'] do
   action :upgrade
 end
 
-# Enable unprivileged ns cloning so we can remove signal suid bits
-sysctl 'kernel.unprivileged_userns_clone' do
-  value 1
+remote_file '/usr/share/consolefonts/Sun12x22.psfu' do
+  source 'https://github.com/legionus/kbd/' +
+    'blob/master/data/consolefonts/sun12x22.psfu?raw=true'
+  mode 0444
+  user 'root'
+  group 'root'
 end
 
-# Remove suid bits
-execute 'chmod -s /opt/Signal*/chrome-sandbox' do
+# On systemd-equipped systems, the linux console parses XKBOPTIONS
+template '/etc/default/keyboard' do
+  source 'console/default-keyboard.erb'
+  mode 0444
   user 'root'
-  action :run
+  group 'root'
+end
+
+template '/etc/default/console-setup' do
+  source 'console/default-console-setup.erb'
+  mode 0444
+  user 'root'
+  group 'root'
+end
+
+execute 'setupcon' do
+  user 'root'
 end
