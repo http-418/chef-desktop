@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: desktop
-# Recipe:: stretch
+# Recipe:: sid
 #
-# Copyright 2016 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,33 +18,31 @@
 #
 
 #
-# This recipe adds the 'stretch' repo and appropriate apt preferences
-# to allow installation of certain 'stretch' packages on 'jessie'
+# This recipe adds the 'sid' repo and appropriate apt preferences
+# to allow installation of certain 'sid' packages when necessary.
 #
 include_recipe 'desktop::apt'
-if node[:lsb][:id] == 'Debian' &&
-    Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('9.0')
-  
-  apt_repository 'stretch' do
+if node[:lsb][:id] == 'Debian'
+  apt_repository 'sid' do
     uri node[:debian][:mirror]
-    distribution 'stretch'
+    distribution 'sid'
     components ['main', 'contrib', 'non-free']
   end
 
-  apt_preference 'stretch' do
+  apt_preference 'sid' do
     glob '*'
-    pin 'release n=stretch'
-    pin_priority '500'
+    pin 'release n=sid'
+    pin_priority '400'
   end
 else
-  apt_preference 'stretch' do
+  apt_preference 'sid' do
     action :remove
   end
 
-  apt_repository 'stretch' do
+  apt_repository 'sid' do
     action :remove
   end
 
-  log "Not adding debian 'stretch' repos to " \
+  log "Not adding debian 'sid' repos to " \
     "#{node[:lsb][:id]} #{node[:lsb][:release]}"
 end

@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: vagrant
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# TODO: use Debian upstream vagrant instead of the commercial version
 
 #
 # Installs vagrant + vbox on Debian/Ubuntu.

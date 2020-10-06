@@ -8,20 +8,22 @@ provisioner:
   product_name: cinc
   product_version: 15.4
 
+# Ubuntu's official 20.04 box crashes VBox on my host.
+# Debian's official box seems to work fine.
 platforms:
-  - name: ubuntu/bionic64
+  - name: generic/ubuntu2004
   - name: debian/buster64
 
 suites:
   - name: kde
     provisioner:
-      policyfile: policyfile.rb
+      policyfile: Policyfile.rb
       named_run_list: kde
   - name: wine
     provisioner:
-      policyfile: policyfile.rb
+      policyfile: Policyfile.rb
       named_run_list: wine
   - name: default
     provisioner:
-      policyfile: policyfile.rb
+      policyfile: Policyfile.rb
 

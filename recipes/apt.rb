@@ -42,6 +42,11 @@ file '/etc/apt/apt.conf.d/02dpkg-options' do
   EOM
 end
 
+# This is a dummy for compatibility with newer apt cookbooks.
+execute 'apt-get update' do
+  action :nothing
+end
+
 execute 'configure-multiarch' do
   command 'dpkg --add-architecture i386'
   not_if 'dpkg --print-foreign-architectures | grep i386'
@@ -73,6 +78,7 @@ package [
   'dirmngr',
 ] do
   action :upgrade
-end  
+end
 
-include_recipe platform_recipe
+# # This should no longer be necessary on modern versions of CINC.
+# include_recipe platform_recipe

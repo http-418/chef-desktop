@@ -43,12 +43,12 @@ if node[:platform] == 'ubuntu'
     notifies :run, 'execute[apt-get update]', :immediately
   end
 else
-  include_recipe 'desktop::stretch'
+  include_recipe 'desktop::sid'
 
   file '/etc/apt/preferences.d/steam.pref' do
     content <<-EOM.gsub(/^ */,'')
       Package: steam:i386
-      Pin: release n=stretch
+      Pin: release n=sid
       Pin-Priority: 900
     EOM
     notifies :run, 'execute[apt-get update]', :immediately

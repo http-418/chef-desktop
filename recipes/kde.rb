@@ -32,6 +32,7 @@ execute "kde-preseed-#{node[:desktop][:display_manager]}" do
 end
 
 package [
+	  'dolphin', # Mysteriously absent from metapackage?
           'plasma-desktop',
           'kscreen', # Display settings are absent without this package.
           'yakuake'
