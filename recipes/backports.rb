@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: backports
 #
-# Copyright 2015-2016 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ if node['platform'] == 'ubuntu'
   # Pin a modern version of git, because trusty inexplicably shipped
   # with an ancient one
   #
-  if Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('16.04')
+  if ubuntu_before('16.04')
     apt_preference 'ubuntu-xenial' do
       glob '*'
       pin 'release n=xenial'
