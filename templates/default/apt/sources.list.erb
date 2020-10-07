@@ -8,6 +8,8 @@
 
 if node[:platform] == 'debian'
   segments = 'main contrib non-free'
+elsif node[:platform] == 'ubuntu' && node['ubuntu']['multiverse_enabled']
+  segments = 'main restricted universe multiverse'
 elsif node[:platform] == 'ubuntu'
   segments = 'main restricted universe'
 else
