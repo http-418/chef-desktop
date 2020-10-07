@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: apt
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,17 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-if node[:platform] == 'debian'
-  node.default['debian']['mirror'] = 'http://mirror.rit.edu/debian'
-  node.default['debian']['deb_src'] = true
-  platform_recipe = 'debian'
-elsif node[:platform] == 'ubuntu'
-  node.default['ubuntu']['deb_src'] = true
-  platform_recipe = 'ubuntu'
-else
-  raise "Unsupported platform: #{node[:platform]}"
-end
 
 #
 # Force apt to keep your old configuration files when possible,
@@ -42,17 +31,6 @@ file '/etc/apt/apt.conf.d/02dpkg-options' do
   EOM
 end
 
-# This is a dummy for compatibility with newer apt cookbooks.
-execute 'apt-get update' do
-  action :nothing
-end
-
-execute 'configure-multiarch' do
-  command 'dpkg --add-architecture i386'
-  not_if 'dpkg --print-foreign-architectures | grep i386'
-  notifies :run, 'execute[apt-get update]', :immediately
-end
-
 apt_preference 'default-distribution' do
   glob '*'
   pin "release n=#{node[:lsb][:codename]}"
@@ -65,11 +43,26 @@ if node[:platform] == 'ubuntu'
   end
 
   file '/etc/apt/apt.conf.d/50appstream' do
-    content '# Appstream was disabled by Chef.'
+    content "# Appstream was disabled by #{Chef::Dist::PRODUCT}."
     mode 0444
     user 'root'
     group 'root'
   end
+end
+
+# The distribution cookbooks are deprecated, so mirrors have to be configured.
+template '/etc/apt/sources.list' do
+  mode 0444
+  source 'apt/sources.list.erb'
+  owner 'root'
+  group 'root'
+  notifies :run, 'execute[apt-get update]', :immediately
+end
+
+execute 'configure-multiarch' do
+  command 'dpkg --add-architecture i386'
+  not_if 'dpkg --print-foreign-architectures | grep i386'
+  notifies :run, 'execute[apt-get update]', :immediately
 end
 
 package [
@@ -80,5 +73,9 @@ package [
   action :upgrade
 end
 
-# # This should no longer be necessary on modern versions of CINC.
-# include_recipe platform_recipe
+# This is a dummy for compatibility with newer apt cookbooks.
+execute 'apt-get update' do
+  action :nothing
+end
+
+include_recipe 'apt'
