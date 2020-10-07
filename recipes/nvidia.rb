@@ -28,7 +28,7 @@ end
 file '/etc/modprobe.d/nouveau-blacklist.conf' do
   mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
-    # This file is maintained by Chef.
+    # This file is maintained by #{Chef::Dist::PRODUCT}.
     # Local changes will be overwritten.
     blacklist nouveau
   EOM
@@ -66,7 +66,7 @@ file '/etc/modules-load.d/nvidia.conf' do
   mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
-    # This file is maintained by Chef.
+    # This file is maintained by #{Chef::Dist::PRODUCT}.
     # Local changes will be overwritten.
     #
     nvidia_current
@@ -79,11 +79,11 @@ file '/etc/modprobe.d/nvidia.conf' do
   mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
-    # This file is maintained by Chef.
+    # This file is maintained by #{Chef::Dist::PRODUCT}.
     # Local changes will be overwritten.
     #
     # This file is no longer needed with modern nVidia driver packages.
-    # Chef overwrites it to ensure it is empty.
+    # #{Chef::Dist::PRODUCT} overwrites it to ensure it is empty.
     #
   EOM
 end
@@ -94,7 +94,7 @@ file '/etc/X11/xorg.conf.d/20-nvidia.conf' do
   mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
-    # This file is maintained by Chef.
+    # This file is maintained by #{Chef::Dist::PRODUCT}.
     # Local changes will be overwritten.
     #
     Section "Device"
@@ -109,7 +109,7 @@ file '/etc/mpv.conf' do
   mode 0o444
   content <<-EOM.gsub(/^ {4}/,'')
     #
-    # This file is maintained by Chef.
+    # This file is maintained by #{Chef::Dist::PRODUCT}.
     # Local changes will be reverted.
     #
 
