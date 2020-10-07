@@ -58,10 +58,7 @@ end
 
 ['wine-staging-amd64', 'wine-staging-i386'].each do |pkg_name|
   package pkg_name do
-    if (node[:platform] == 'ubuntu' &&
-        Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('20.04')) ||
-        (node[:platform] == 'debian' &&
-         Gem::Version.new(node[:lsb][:release]) < Gem::Version.new('11'))
+    if debian_before('11') or ubuntu_before('20.04')
       # We're stuck on 4.5 forever, because wine integrates a new audio
       # system that's not supported before 20.04 or Debian 11
       action :install

@@ -11,3 +11,4 @@ module BeforeVersionHelper
 end
 
 Chef::Recipe.send(:include, BeforeVersionHelper)
+Chef::Resource.send(:include, BeforeVersionHelper)
