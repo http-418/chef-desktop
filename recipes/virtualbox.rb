@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: virtualbox
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,19 +24,24 @@ apt_repository 'virtualbox' do
   uri 'http://download.virtualbox.org/virtualbox/debian'
   components ['contrib']
   distribution node[:lsb][:codename]
-  key 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
+  key 'default/oracle_vbox_2016.asc'
   action :add
 end
 
 package 'virtualbox-4.3' do
   action :remove
-  only_if 'dpkg --get-selections | grep virtualbox-4.3'
+  only_if 'dpkg --get-selections | grep virtualbox-4.3 | grep -v deinstall'
+end
+
+package 'virtualbox-5.2' do
+  action :remove
+  only_if 'dpkg --get-selections | grep virtualbox-5.2 | grep -v deinstall'
 end
 
 package [
          'build-essential',
          'dkms',
-         'virtualbox-5.2'
+         'virtualbox-6.1'
         ] do
   action :upgrade
   timeout 3600

@@ -32,12 +32,18 @@ end
 package [
  'fonts-inconsolata',
  'fonts-liberation',
- 'ttf-mscorefonts-installer',
  'xfonts-75dpi',
  'xfonts-100dpi',
  'xfonts-base',
  'xfonts-scalable',
 ] do
-  action :install
+  action :upgrade
   notifies :run, 'execute[fc-cache -fv]'
+end
+
+if node[:platform] == 'debian' || node['ubuntu']['multiverse_enabled']
+  package 'ttf-mscorefonts-installer' do
+    action :upgrade
+    notifies :run, 'execute[fc-cache -fv]'
+  end
 end

@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: youtube-dl
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,12 +23,8 @@
 #
 include_recipe 'apt'
 
-if node['platform'] == 'debian'
-  package [ 'ffmpeg', 'pandoc' ]
-elsif node['platform'] == 'ubuntu'
-  package [ 'libav-tools', 'pandoc' ]
-else
-  raise "Unsupported platform: #{node['platform']}"
+package [ 'ffmpeg', 'pandoc' ] do
+  action :upgrade
 end
 
 ytdl_src_path = '/usr/local/src/youtube-dl'

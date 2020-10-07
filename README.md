@@ -7,7 +7,7 @@ https://cinc.sh/start/workstation/
     /opt/cinc-workstation/bin/kitchen list
 	
 3. Try to converge both Ubuntu and Debian VMs with a default runlist from the stub `Policyfile.rb` :
-    /opt/cinc-workstation/bin/kitchen setup
+    /opt/cinc-workstation/bin/kitchen setup -c 2 default
 	
 ## Deployment
 

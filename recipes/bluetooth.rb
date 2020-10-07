@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: bluetooth
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,12 +50,14 @@ execute 'btusb-reload' do
   command '/sbin/modprobe -r btusb; /sbin/modprobe btusb'
 end
 
+include_recipe 'desktop::apt'
+
 [
   'blueman',
   'bluetooth',
   'bluez',
+  'bluez-obexd',
   'bluez-tools',
-  'obex-data-server',
   'pulseaudio',
   'pulseaudio-module-bluetooth',
   'sudo'
@@ -87,12 +89,13 @@ gem_version = '>= 1.1.4'
 execute "chef_gem_install_#{gem_name}" do
   command "#{gem_path} install #{gem_name} " \
     '--no-user-install ' \
-    '-q --no-rdoc --no-ri --platform universal-linux ' \
+    '-q -N --platform universal-linux ' \
     "-v '#{gem_version}'"
   umask 0022
   live_stream true if respond_to?(:live_stream)
 end
 
+# Make sure PulseAudio has BT support enabled for all PulseAudio users.
 ruby_block 'load-pa-bt-module' do
   block do
     Gem.clear_paths
@@ -100,19 +103,24 @@ ruby_block 'load-pa-bt-module' do
     require 'etc'
     require 'sys/proctable'
 
-    pulseaudio_users = Sys::ProcTable.ps.select do |pp|
+    pulseaudio_user_uid_pairs = Sys::ProcTable.ps.select do |pp|
       pp.cmdline.start_with?('/usr/bin/pulseaudio')
     end.map do |pp|
-      Etc.getpwuid(pp.uid).name rescue nil
+      [Etc.getpwuid(pp.uid).name, pp.uid] rescue nil
     end.compact
 
-    pulseaudio_users.each do |user_name|
+    pulseaudio_user_uid_pairs.each do |user_name,user_id|
+      pa_server = "unix:/run/user/#{user_id}/pulse/native"
+
+      Chef::Log.info("Updating Pulseaudio user: #{user_name} (#{user_id})")
+      Chef::Log.info("Updating Pulseaudio server: #{pa_server}")
+
       Chef::Resource::Execute.new("#{user_name}-pactl-bt-load",
                                   node.run_context).tap do |ee|
-        ee.command 'pactl load-module module-bluetooth-discover'
+        ee.command "pactl --server #{pa_server} " \
+          "load-module module-bluetooth-discover"
         ee.user user_name
-        ee.not_if "sudo -H -u #{user_name} pactl list | " \
-          'grep module-bluetooth-discover'
+        ee.not_if "pactl --server #{pa_server} list | grep module-bluetooth-discover"
       end.run_action(:run)
     end
   end

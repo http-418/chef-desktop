@@ -17,41 +17,19 @@
 # limitations under the License.
 #
 
-# TODO: use Debian upstream vagrant instead of the commercial version
-
 #
 # Installs vagrant + vbox on Debian/Ubuntu.
 #
+# This used to be a more complex recipe, to handle commercial Vagrant.
+#
+
+include_recipe 'desktop::apt'
 include_recipe 'desktop::virtualbox'
 
-vagrant_url =
-  'https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb'
-
-vagrant_path =
-  "#{Chef::Config[:file_cache_path]}/vagrant_2.1.2_x86_64.deb"
-
-remote_file vagrant_path do
-  source vagrant_url
-  mode 0444
-  checksum 'f614a60b258a856322f23d33a24201d26ab2555d047814fec403e834eb7d62b4'
+if debian_before('10')
+  raise 'Distribution-managed Vagrant is not available before Debian "Buster"'
 end
 
-dpkg_package 'vagrant' do
-  action :install
-  source vagrant_path
-end
-
-#
-# Vagrant ships its own SSL CAs.
-# We force it to use system-wide SSL instead.
-#
-vagrant_ca_path = '/opt/vagrant/embedded/cacert.pem'
-
-file vagrant_ca_path do
-  action :delete
-  not_if { File.symlink?(vagrant_ca_path) }
-end
-
-link vagrant_ca_path do
-  to '/etc/ssl/certs/ca-certificates.crt'
+package [ 'vagrant', 'vagrant-cachier' ] do
+  action :upgrade
 end

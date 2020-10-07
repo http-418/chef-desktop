@@ -29,11 +29,9 @@ include_recipe 'desktop::pulseaudio'
 include_recipe 'desktop::synaptics'
 include_recipe 'desktop::graphics'
 
-
 # Software.
-include_recipe 'desktop::applications'
 include_recipe 'desktop::ssh'
+include_recipe 'desktop::applications'
 
 # Primary user configuration -- see attributes/user.rb!
 include_recipe 'desktop::user'
-
