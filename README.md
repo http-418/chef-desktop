@@ -1,3 +1,9 @@
+## Requirements
+
+These recipes now firmly require client version 16.5 or above, thanks to branding changes.
+
+Recipes are expected to work on Debian "Buster" (10) and Ubuntu "Focal" (20.04 LTS)
+
 ## Test-Kitchen Quick Start
 
 1. Install CINC-workstation.  

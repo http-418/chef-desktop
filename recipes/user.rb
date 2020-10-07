@@ -46,7 +46,7 @@ node['desktop']['user'].tap do |user|
     group 'root'
     mode 0440
     content <<-EOM.gsub(/^ {6}/,'')
-      # This file is maintained by #{Chef::Dist::PRODUCT}.
+      # This file is maintained by #{ChefUtils::Dist::Infra::PRODUCT}.
       # Local changes will be overwritten.
       #{user['name']} ALL=(ALL:ALL) NOPASSWD: ALL
     EOM
@@ -58,7 +58,7 @@ file "/etc/sudoers.d/proxy" do
     group 'root'
     mode 0440
     content <<-EOM.gsub(/^ {6}/,'')
-      # This file is maintained by #{Chef::Dist::PRODUCT}.
+      # This file is maintained by #{ChefUtils::Dist::Infra::PRODUCT}.
       # Local changes will be overwritten.
       Defaults env_keep += "http_proxy https_proxy"
     EOM

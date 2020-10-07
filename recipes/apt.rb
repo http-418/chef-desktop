@@ -43,7 +43,7 @@ if node[:platform] == 'ubuntu'
   end
 
   file '/etc/apt/apt.conf.d/50appstream' do
-    content "# Appstream was disabled by #{Chef::Dist::PRODUCT}."
+    content "# Appstream was disabled by #{ChefUtils::Dist::Infra::PRODUCT}."
     mode 0444
     user 'root'
     group 'root'

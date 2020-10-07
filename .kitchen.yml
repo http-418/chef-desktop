@@ -6,7 +6,7 @@ driver:
 provisioner:
   name: chef_zero
   product_name: cinc
-  product_version: 15.4
+  product_version: 16.5
 
 # Ubuntu's official 20.04 box crashes VBox on my host.
 # Debian's official box seems to work fine.

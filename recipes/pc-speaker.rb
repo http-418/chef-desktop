@@ -25,7 +25,7 @@ end
 file '/etc/modprobe.d/pcspkr-blacklist.conf' do
   mode 0444
   content <<-EOM.gsub(/^ {4}/,'')
-    # This file is maintained by #{Chef::Dist::PRODUCT}.
+    # This file is maintained by #{ChefUtils::Dist::Infra::PRODUCT}.
     # Local changes will be overwritten.
     blacklist pcspkr
   EOM
