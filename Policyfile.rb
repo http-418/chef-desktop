@@ -27,3 +27,4 @@ default_source :supermarket
 cookbook 'desktop', path: '.'
 named_run_list :kde, 'desktop::kde'
 named_run_list :wine, 'desktop::wine'
+named_run_list :devtools, 'desktop::java', 'desktop::sbt'

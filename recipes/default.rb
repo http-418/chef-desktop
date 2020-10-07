@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: default
 #
-# Copyright 2016 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,6 +32,9 @@ include_recipe 'desktop::graphics'
 # Software.
 include_recipe 'desktop::ssh'
 include_recipe 'desktop::applications'
+
+# Development tools.
+include_recipe 'desktop::java'
 
 # Primary user configuration -- see attributes/user.rb!
 include_recipe 'desktop::user'

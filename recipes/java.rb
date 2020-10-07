@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: java
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2020 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,6 @@
 # limitations under the License.
 #
 
-node.default[:java][:install_flavor] = 'oracle'
-node.default[:java][:jdk_version] = '8'
-node.default[:java][:oracle][:accept_oracle_download_terms] = true
-
 #
 # Install a packaged java to satisfy Debian deps.
 #
@@ -34,17 +30,13 @@ else
   include_recipe 'desktop::apt'
 end
 
-if node[:platform] == 'debian'
-  package 'openjdk-8-jdk' do
-    action :upgrade
-  end
-elsif node[:plaftorm] == 'ubuntu'
-  # Do nothing.
+package 'openjdk-8-jdk' do
+  action :upgrade
 end
 
-#include_recipe 'java'
 #
-#java_alternatives 'oracle-java-alternatives' do
-#  java_location '/usr/lib/jvm/java-8-oracle-amd64'
-#  action :set
-#end
+# Install an actually-modern Java from adoptopenjdk via the java cookbook.
+#
+# (Boy, this is simpler than the old way, isn't it?)
+#
+adoptopenjdk_install '14'
