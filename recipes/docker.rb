@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: docker
 #
-# Copyright 2015 Andrew Jones
+# Copyright 2021 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,11 +24,10 @@ package 'apt-transport-https' do
 end
 
 apt_repository 'docker' do
-  uri 'https://apt.dockerproject.org/repo'
-  distribution "#{node[:lsb][:id]}-#{node[:lsb][:codename]}".downcase
-  components ['main']
-  keyserver 'hkps.pool.sks-keyservers.net'
-  key '58118E89F3A912897C070ADBF76221572C52609D'
+  uri "https://download.docker.com/linux/#{node[:lsb][:id].downcase}"
+  distribution node[:lsb][:codename].downcase
+  components ['stable']
+  key 'docker.key'
 end
 
 apt_package 'docker.io' do
@@ -51,6 +50,11 @@ end
 docker_service = 'docker'
 
 apt_package 'docker-engine' do
+  action :remove
+  notifies :stop, "service[#{docker_service}]", :before
+end
+
+apt_package 'docker-ce' do
   action :upgrade
   notifies :restart, "service[#{docker_service}]"
 end
