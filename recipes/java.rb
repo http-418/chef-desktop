@@ -2,7 +2,7 @@
 # Cookbook Name:: desktop
 # Recipe:: java
 #
-# Copyright 2020 Andrew Jones
+# Copyright 2021 Andrew Jones
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,8 +30,12 @@ else
   include_recipe 'desktop::apt'
 end
 
-package 'openjdk-8-jdk' do
+package 'openjdk-11-jdk' do
   action :upgrade
+end
+
+package 'openjdk-8-jre' do
+  action :remove
 end
 
 #
