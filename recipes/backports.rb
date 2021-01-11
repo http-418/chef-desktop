@@ -75,8 +75,8 @@ end
 apt_preference "#{node[:lsb][:codename]}-backports" do
     glob '*'
     pin "release n=#{node[:lsb][:codename]}-backports"
-    # Same priority as the default distribution set in desktop::apt
-    pin_priority '700'
+    # Priority lower than the default distribution set in desktop::apt
+    pin_priority '600'
     notifies :run, 'execute[apt-get update]', :immediately
 end
 
